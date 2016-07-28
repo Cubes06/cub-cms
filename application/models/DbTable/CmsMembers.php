@@ -7,12 +7,13 @@
 
         protected $_name = 'cms_members';  //ovde ide naziv tabele
 
+        
         /**
-         * 
          * @param int $id
          * @return null|array Associative array as cms_members table columns or NULL if not found
          */
         public function getMemberById($id) {
+            
             $select = $this->select();
             $select->where("id = ?", $id);
 
@@ -24,17 +25,9 @@
             else {
                 return null;
             }
-
-        }
-        
-        
-                    
-//                $data = array(
-//                    'updated_on'      => '2007-03-23',
-//                    'bug_status'      => 'FIXED'
-//                );
-//
-//                $n = $db->update('bugs', $data, 'bug_id = 2');
+            
+        }//endf
+                
         
         public function updateMember ($id, $member) {
 
@@ -43,7 +36,9 @@
                 unset($member['id']);
             }
             $this->update($member, 'id = ' . $id);
-        }
+            
+        }//endf
+        
         
         public function updateOrderOfMembers($sortedIds) {
             
@@ -52,30 +47,29 @@
                         'order_number' => $orderNumber + 1 
                     ), 'id = ' . $id);
             }
-        }
+            
+        }//endf
         
         
-
         /**
-         * 
          * @param array $member  Associative array as cms_members table columns or NULL if not found
          * @return int $id od novog usera
          */
         public function insertMember($member) {
             //fetch order number for new member
-            
             $id = $this->insert($member);
                         
             return $id;
-        }
+        }//endf
+        
         
         /**
-         * 
          * @param int $id ID of member to delete
          */
         public function deleteMember($id) {
 		
             $memberPhotoFilePath = PUBLIC_PATH . '/uploads/members/' . $id . '.jpg';
+            
             if (is_file($memberPhotoFilePath)) {
                 //delete member photo file
                 unlink($memberPhotoFilePath);
@@ -83,41 +77,39 @@
             
             //member who is going to be deleted
             $member = $this->getMemberById($id);
-
-            $this->update(array(
-                    'order_number' => new Zend_Db_Expr('order_number - 1')
-            ),
-            'order_number > ' . $member['order_number']);
+            
+            //this updates order_numbers of all members whose order_numbers are greater than the current order_numer
+            $this->update(
+                    array('order_number' => new Zend_Db_Expr('order_number - 1')),
+                    'order_number > ' . $member['order_number']
+            );
 
             $this->delete('id = ' . $id);
 	
-        }
+        }//endf
+        
+        
         
         /**
-         * 
-         * @param int $id    ID of member to disable
-         */
-        public function disableMember($id) {
-            $this->update(array(
-                'status' => self::STATUS_DISABLED
-            ), 'id = ' . $id);
-        }
-        
-        /**
-         * 
          * @param int $id    ID of member to enable
          */
         public function enableMember($id) {
-            $this->update(array(
-                'status' => self::STATUS_ENABLED
-            ), 'id = ' . $id);
-        }
+            $this->update(
+                    array('status' => self::STATUS_ENABLED), 
+                    'id = ' . $id
+            );
+        }//endf
         
         
+        /**
+         * @param int $id    ID of member to disable
+         */
+        public function disableMember($id) {
+            $this->update(
+                    array('status' => self::STATUS_DISABLED), 
+                    'id = ' . $id
+            );
+        }//endf
+              
         
-        
-        
-        
-        
-        
-    }
+    } //end of: class Application_Model_DbTable_CmsMembers

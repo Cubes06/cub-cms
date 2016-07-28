@@ -7,8 +7,8 @@
 
         protected $_name = 'cms_clients';  //ovde ide naziv tabele
 
+        
         /**
-         * 
          * @param int $id
          * @return null|array Associative array as cms_clients table columns or NULL if not found
          */
@@ -24,17 +24,18 @@
             else {
                 return null;
             }
-
         }
 
+        
         public function updateClient ($id, $client) {
 
             if (isset($client['id'])) {
-                //Forbid changing of user id
+                //Forbid changing user's id
                 unset($client['id']);
             }
             $this->update($client, 'id = ' . $id);
         }
+        
         
         public function updateOrderOfClients($sortedIds) {
             
@@ -48,28 +49,26 @@
         
 
         /**
-         * 
          * @param array $client  Associative array as cms_clients table columns or NULL if not found
          * @return int $id od novog usera
          */
         public function insertClient($client) {
             //fetch order number for new client
-            
             $id = $this->insert($client);
                         
             return $id;
         }
         
+        
         /**
-         * 
          * @param int $id ID of client to delete
          */
         public function deleteClient($id) {
             $this->delete('id = ' . $id);
         }
         
+        
         /**
-         * 
          * @param int $id    ID of client to disable
          */
         public function disableClient($id) {
@@ -78,8 +77,8 @@
             ), 'id = ' . $id);
         }
         
+        
         /**
-         * 
          * @param int $id    ID of client to enable
          */
         public function enableClient($id) {
@@ -88,6 +87,5 @@
             ), 'id = ' . $id);
         }
         
-
-        
-    }
+      
+    } // end of: class Application_Model_DbTable_CmsClients

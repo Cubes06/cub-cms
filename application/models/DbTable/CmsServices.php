@@ -7,12 +7,13 @@
 
         protected $_name = 'cms_services';
  
+        
         /**
-         * 
          * @param int $id
          * @return null|array   Associative array as cms_services table columns or NULL if not found
          */
         public function getServiceById($id) {
+            
             $select = $this->select();
             $select->where("id = ?", $id);
 
@@ -24,7 +25,9 @@
             else {
                 return null;
             }
-        } //end of function
+            
+        }//endf
+        
 
         /**
          * @param int $id
@@ -36,12 +39,11 @@
                 unset($service['id']);
             }
             $this->update($service, 'id = ' . $id);
-        }
-        
+        }//endf
         
 
         public function insertService($service) {
-            //fetch order number for new member
+            
             $select = $this->select();
             
             $select->from($this, array(new Zend_Db_Expr('(MAX(order_number))+1 AS order_number')));
@@ -51,29 +53,30 @@
             $service['order_number'] = $row['order_number'];
 
             $this->insert($service); 
-        }
+        }//endf
         
         
         public function updateOrderOfServices($sortedIds) {
             
             foreach ($sortedIds as $orderNumber => $id) {
-                $this->update(array(
-                        'order_number' => $orderNumber + 1 
-                    ),  'id = ' . $id);
+                $this->update(
+                        array('order_number' => $orderNumber + 1),  
+                        'id = ' . $id
+                );
             }
-        }
+            
+        }//endf
         
         
         /**
-         * 
          * @param int $id ID of service to delete
          */
         public function deleteService($id) {
             $this->delete('id = ' . $id);
         }
         
+        
         /**
-         * 
          * @param int $id    ID of service to disable
          */
         public function disableService($id) {
@@ -82,16 +85,16 @@
             ), 'id = ' . $id);
         }
         
+        
         /**
-         * 
          * @param int $id    ID of service to enable
          */
         public function enableService($id) {
-            $this->update(array(
-                'status' => self::STATUS_ENABLED
-            ), 'id = ' . $id);
+            $this->update(
+                    array('status' => self::STATUS_ENABLED), 
+                    'id = ' . $id
+            );
         }
         
         
-    }
-
+    } //end of: class Application_Model_DbTable_CmsServices
