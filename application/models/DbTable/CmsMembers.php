@@ -43,9 +43,10 @@
         public function updateOrderOfMembers($sortedIds) {
             
             foreach ($sortedIds as $orderNumber => $id) {
-                $this->update(array(
-                        'order_number' => $orderNumber + 1 
-                    ), 'id = ' . $id);
+                $this->update(
+                        array('order_number' => $orderNumber + 1), 
+                        'id = ' . $id
+                );
             }
             
         }//endf
@@ -56,11 +57,29 @@
          * @return int $id od novog usera
          */
         public function insertMember($member) {
-            //fetch order number for new member
-            $id = $this->insert($member);
-                        
-            return $id;
-        }//endf
+            
+		//fetch order number for new member
+		$select = $this->select();
+		
+		//Sort rows by order_number DESCENDING and fetch one row from the top
+		// with biggest order_number
+		$select->order('order_number DESC');
+		
+		$memberWithBiggestOrderNumber = $this->fetchRow($select);
+		
+		if ($memberWithBiggestOrderNumber instanceof Zend_Db_Table_Row) {
+			
+			$member['order_number'] = $memberWithBiggestOrderNumber['order_number'] + 1;
+		} 
+                else {
+			// table was empty, we are inserting first member
+			$member['order_number'] = 1;
+		}
+		
+		$id = $this->insert($member);
+		
+		return $id;
+	}//endf
         
         
         /**

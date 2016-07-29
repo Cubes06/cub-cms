@@ -1,4 +1,4 @@
-    <?php
+<?php
 
     class Admin_UsersController extends Zend_Controller_Action {
 
@@ -509,5 +509,10 @@
             $this->view->columns = $columns;
         
         }
+        
+        
+        public function dashboardAction() {
+            return "4";
+        }
 
-}
+    }

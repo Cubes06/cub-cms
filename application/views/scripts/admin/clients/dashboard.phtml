@@ -1,0 +1,11 @@
+<?php
+    Zend_Layout::getMvcInstance()->disableLayout();
+    
+    $test = $this->test;
+    $test2 = $this->test2;
+//    $activeClients = $this->activeClients;
+//    $totalNumberOfClients = $this->totalNumberOfClients;
+
+    echo $this->escape($test . ' / ' .$test2 );
+
+

@@ -5,7 +5,6 @@
     class Admin_ClientsController extends Zend_Controller_Action {
         
         public function indexAction() {
-            
             $flashMessenger = $this->getHelper('FlashMessenger');
             
             $systemMessages = array(
@@ -94,6 +93,7 @@
             $this->view->systemMessages = $systemMessages;
             $this->view->form = $form;
         }
+        
 
         public function editAction() {
 		
@@ -416,6 +416,18 @@
                             'controller' => 'admin_clients',
                             'action' => 'index'
                             ), 'default', true);          
+        }
+        
+        
+        public function dashboardAction() {
+            //Zend_Layout::getMvcInstance()->disableLayout();
+            
+            $test = 5;
+            $test2 = 10;
+            $this->view->test = $test;
+            $this->view->test2 = $test2;
+            
+
         }
         
     }

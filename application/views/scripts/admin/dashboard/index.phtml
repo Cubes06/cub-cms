@@ -10,19 +10,21 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-comments fa-5x"></i>
+                                    <i class="fa fa-table fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">26</div>
-                                    <div>New Comments!</div>
+                                    <div class="huge">26 / 26</div>
+                                    <div>Members total / active</div>
                                 </div>
                             </div>
                         </div>
                         <a href="#">
                             <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
+                                <a href=" <?php echo $this->url(array('controller' => 'admin_members', 'action' => 'index'), 'default', 'true'); ?> ">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </a>
                             </div>
                         </a>
                     </div>
@@ -32,19 +34,21 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-tasks fa-5x"></i>
+                                    <i class="fa fa-briefcase fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">12</div>
-                                    <div>New Tasks!</div>
+                                    <div class="huge">12 / 5</div>
+                                    <div>Services</div>
                                 </div>
                             </div>
                         </div>
                         <a href="#">
                             <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
+                                <a href=" <?php echo $this->url(array('controller' => 'admin_services', 'action' => 'index'), 'default', 'true'); ?> ">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </a>
                             </div>
                         </a>
                     </div>
@@ -54,19 +58,21 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-shopping-cart fa-5x"></i>
+                                    <i class="fa fa-user fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">124</div>
-                                    <div>New Orders!</div>
+                                    <div class="huge">34 / 23</div>
+                                    <div>Users</div>
                                 </div>
                             </div>
                         </div>
                         <a href="#">
                             <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
+                                <a href=" <?php echo $this->url(array('controller' => 'admin_users', 'action' => 'index'), 'default', 'true'); ?> ">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </a>
                             </div>
                         </a>
                     </div>
@@ -76,22 +82,70 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-support fa-5x"></i>
+                                    <i class="fa fa-users fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">13</div>
-                                    <div>Support Tickets!</div>
+                                    <div id="clientsNumbers" class="huge"></div>
+                                    <div>Clients</div>
                                 </div>
                             </div>
                         </div>
                         <a href="#">
                             <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
+                                <a href=" <?php echo $this->url(array('controller' => 'admin_clients', 'action' => 'index'), 'default', 'true'); ?> ">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </a>
                             </div>
                         </a>
                     </div>
                 </div>
             </div>
 
+<script>
+    
+    //treba preko ajax-a da pozivamo
+    // /admin_users/dashboard
+    // /admin_services/dashboard
+    // /admin_members/dashboard
+    // /admin_clients/dashboard
+    
+
+    <?php $this->inlineScript()->captureStart(); ?>
+    
+    $.ajax({
+        url: "<?php echo $this->url(array('controller' => 'admin_clients', 'action' => 'dashboard'), 'default', true); ?>",
+        cache: false
+    }).done(function (data) {
+        var element = $('#clientsNumbers');
+        element.append(data);
+    }).fail(function () {
+        alert('Unable to load current data for clients.');
+    }).always(function () {
+    });
+    
+    
+    
+    
+//    $.ajax({
+//        url: '<?php echo $this->url(array('controller' => 'admin_clients', 'action' => 'dashboard'), 'default', true); ?>',
+//        cache: false
+//    }).done(function (data) {
+//        var element = $('#client');
+//        element.html(data);
+//    }).fail(function () {
+//        alert('Unable to load current data for clients.');
+//    }).always(function () {
+//    });
+    
+    
+
+    
+    
+    <?php $this->inlineScript()->captureEnd(); ?>
+    
+
+    
+    
+</script>

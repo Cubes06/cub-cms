@@ -30,6 +30,7 @@
         
         
         public function addAction() {
+            
             $request = $this->getRequest(); //podaci iz url-a iz forme sa koje dolazimo 
             $flashMessenger = $this->getHelper('FlashMessenger');  // za prenosenje sistemskih poruka
 
@@ -52,12 +53,13 @@
                     if (!$form->isValid($request->getPost())) {
                         throw new Application_Model_Exception_InvalidInput('Invalid data was sent for new member');
                     }
+                    
                     //get form data
                     $formData = $form->getValues();
 
                     //remove key member_photo form form data because there is no column 'member_photo' in cms_members table
                     unset($formData['member_photo']);
-                    //Insertujemo novi zapis u tabelu
+                    
                     $cmsMembersTable = new Application_Model_DbTable_CmsMembers();
 
                     //insert member returns ID of the new member
@@ -72,12 +74,13 @@
 
                         try {
                             //open uploaded photo in temporary directory
-                            $memberPhoto = Intervention\Image\ImageManagerStatic::make($fileInfo['tmp_name']);
+                            $memberPhoto = Image::make($fileInfo['tmp_name']);
 
                             $memberPhoto->fit(150, 150);
 
                             $memberPhoto->save(PUBLIC_PATH . '/uploads/members/' . $memberId . '.jpg');
-                        } catch (Exception $ex) {
+                        }
+                        catch (Exception $ex) {
 
                             $flashMessenger->addMessage('Member has been saved but error occured during image processing', 'errors');
                             //redirect to same or another page
@@ -92,10 +95,8 @@
                         //$fileInfo = $_FILES['member_photo'];
                     }
 
-                    // do actual task
-                    //save to database etc
-                    //set system message
                     $flashMessenger->addMessage('Member has been saved', 'success');
+                    
                     //redirect to same or another page
                     $redirector = $this->getHelper('Redirector');
                     $redirector->setExit(true)
@@ -103,14 +104,17 @@
                                 'controller' => 'admin_members',
                                 'action' => 'index'
                                     ), 'default', true);
-                } catch (Application_Model_Exception_InvalidInput $ex) {
+                } 
+                catch (Application_Model_Exception_InvalidInput $ex) {
                     $systemMessages['errors'][] = $ex->getMessage();
                 }
             }
 
             $this->view->systemMessages = $systemMessages;
             $this->view->form = $form;
-        }
+            
+        }//endf
+        
         
         public function editAction() {
 		
@@ -129,10 +133,7 @@
                 throw new Zend_Controller_Router_Exception('No member is found with id: ' . $id, 404);
             }
             
-//            print_r($member);
-//            die();
-            
-            $flashMessenger = $this->getHelper('FlashMessenger');  // za prenosenje sistemskih poruka
+            $flashMessenger = $this->getHelper('FlashMessenger');  
 
             $systemMessages = array(
                 'success' => $flashMessenger->getMessages('success'),
@@ -141,62 +142,69 @@
 
             $form = new Application_Form_Admin_MemberEdit();
             
-            //default form data
-            $form->populate($member); //$member je sam po sebi array
-            
-            
             // kad prvi put dolazimo onda je get method, a ako smo preko forme onda je post method
             if ($request->isPost() && $request->getPost('task') === 'update') {
+                //default form data
+                
                 try {
                         //check form is valid
                         if (!$form->isValid($request->getPost())) {
                                 throw new Application_Model_Exception_InvalidInput('Invalid data was sent for member');
                         }
+                        
                         //get form data
                         $formData = $form->getValues();
 
                         unset($formData['member_photo']);
 
                         if ($form->getElement('member_photo')->isUploaded()) {
-                                //photo is uploaded
+                            //photo is uploaded
 
-                                $fileInfos = $form->getElement('member_photo')->getFileInfo('member_photo');
-                                $fileInfo = $fileInfos['member_photo'];
+                            $fileInfos = $form->getElement('member_photo')->getFileInfo('member_photo');
+                            $fileInfo = $fileInfos['member_photo'];
 
+                            try {
+                                //open uploaded photo in temporary directory
+                                $memberPhoto = Image::make($fileInfo['tmp_name']);
 
-                                try {
-                                        //open uploaded photo in temporary directory
-                                        $memberPhoto = Intervention\Image\ImageManagerStatic::make($fileInfo['tmp_name']);
+                                $memberPhoto->fit(150, 150);
 
-                                        $memberPhoto->fit(150, 150);
+                                $memberPhoto->save(PUBLIC_PATH . '/uploads/members/' . $member['id'] . '.jpg');
 
-                                        $memberPhoto->save(PUBLIC_PATH . '/uploads/members/' . $member['id'] . '.jpg');
+                            } 
+                            catch (Exception $ex) {
 
-                                } 
-                                catch (Exception $ex) {
+                                    throw new Application_Model_Exception_InvalidInput('Error occured during image processing');
 
-                                        throw new Application_Model_Exception_InvalidInput('Error occured during image processing');
-
-                                }
-                                //$fileInfo = $_FILES['member_photo'];
+                            }
+                            //$fileInfo = $_FILES['member_photo'];
                         }
+                        
                         //Radimo update postojeceg zapisa u tabeli
-
                         $cmsMembersTable->updateMember($member['id'], $formData);
 
                         //set system message
                         $flashMessenger->addMessage('Member has been updated', 'success');
+                        
                         //redirect to same or another page
                         $redirector = $this->getHelper('Redirector');
                         $redirector->setExit(true)
-                                ->gotoRoute(array(
-                                        'controller' => 'admin_members',
-                                        'action' => 'index'
-                                        ), 'default', true);
+                                   ->gotoRoute(
+                                            array(
+                                                'controller' => 'admin_members',
+                                                'action' => 'index'
+                                            ), 
+                                           'default', 
+                                           true
+                        );
                 }
                 catch (Application_Model_Exception_InvalidInput $ex) {
                         $systemMessages['errors'][] = $ex->getMessage();
                 }
+            }
+            else {
+                //default form data
+                $form->populate($member);
             }
 
             $this->view->systemMessages = $systemMessages;
@@ -432,6 +440,15 @@
                             'controller' => 'admin_members',
                             'action' => 'index'
                             ), 'default', true);          
+        }
+        
+        
+        public function dashboardAction() {
+            
+            Zend_Layout::getMvcInstance()->disableLayout();
+            echo "<p>sdaf</p>";
+            return "1";
+            
         }
         
     }

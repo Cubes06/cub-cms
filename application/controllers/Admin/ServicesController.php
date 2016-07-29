@@ -21,6 +21,7 @@
             $this->view->systemMessages = $systemMessages;
         }
         
+        
         public function addAction() {
             $request = $this->getRequest(); //podaci iz url-a iz forme sa koje dolazimo 
             $flashMessenger = $this->getHelper('FlashMessenger');  // za prenosenje sistemskih poruka
@@ -71,6 +72,7 @@
             $this->view->systemMessages = $systemMessages;
             $this->view->form = $form;
         }
+        
         
         public function editAction() {
 		
@@ -308,6 +310,7 @@
             
         }
         
+        
         public function updateorderAction() {
             
             $request = $this->getRequest();
@@ -369,6 +372,11 @@
                             'controller' => 'admin_services',
                             'action' => 'index'
                             ), 'default', true);          
+        }
+        
+        
+        public function dashboardAction() {
+            return "3";
         }
         
     }
