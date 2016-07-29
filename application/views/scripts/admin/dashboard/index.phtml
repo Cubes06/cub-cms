@@ -13,11 +13,11 @@
                                     <i class="fa fa-table fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">26 / 26</div>
+                                    <div id="membersNumbers" class="huge"></div>
                                     <div>Members total / active</div>
                                 </div>
-                            </div>
-                        </div>
+                            </div> 
+                        </div> 
                         <a href="#">
                             <div class="panel-footer">
                                 <a href=" <?php echo $this->url(array('controller' => 'admin_members', 'action' => 'index'), 'default', 'true'); ?> ">
@@ -37,7 +37,7 @@
                                     <i class="fa fa-briefcase fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">12 / 5</div>
+                                    <div id="servicesNumbers" class="huge">12 / 5</div>
                                     <div>Services</div>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                                     <i class="fa fa-user fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">34 / 23</div>
+                                    <div id="usersNumbers" class="huge">34 / 23</div>
                                     <div>Users</div>
                                 </div>
                             </div>
@@ -128,16 +128,16 @@
     
     
     
-//    $.ajax({
-//        url: '<?php echo $this->url(array('controller' => 'admin_clients', 'action' => 'dashboard'), 'default', true); ?>',
-//        cache: false
-//    }).done(function (data) {
-//        var element = $('#client');
-//        element.html(data);
-//    }).fail(function () {
-//        alert('Unable to load current data for clients.');
-//    }).always(function () {
-//    });
+    $.ajax({
+        url: "<?php echo $this->url(array('controller' => 'admin_members', 'action' => 'dashboard'), 'default', true); ?>",
+        cache: false
+    }).done(function (data) {
+        var element = $('#membersNumbers');
+        element.append(data);
+    }).fail(function () {
+        alert('Unable to load current data for members.');
+    }).always(function () {
+    });
     
     
 

@@ -1,1 +1,25 @@
 github.com/aleksandar-dimic/
+
+$json = array('' => '');
+
+Iz kontrolera:
+
+From controller:
+//JSON action helper
+$this->getHelper('Json')->sendJson($json);
+
+//From view script (.phtml file)
+//json view helper
+echo $this->json($json);
+
+//Layout is being disabled
+//View script rendering is being disabled
+//Content-Type header is being se to 'application/json'
+//Convert $json php variable into JSON (json_encode)
+//echo json encoded variable into response body
+
+
+
+output buffering
+interno se poziva funkcija ob_start();
+a na captureEnd() se poziva ob_end();

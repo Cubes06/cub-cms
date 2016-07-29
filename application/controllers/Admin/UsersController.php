@@ -267,22 +267,54 @@
                     throw new Application_Model_Exception_InvalidInput('No user is found with id: ' . $id);
                 }
                 $cmsUsersTable->disableUser($id);
-                $flashMessenger->addMessage('User ' . $user['first_name'] . ' ' . $user['last_name'] . ' has been disabled.', 'success');
+                
+                //proveravamo da li je zahtev ajax ili ne
+                $request instanceof Zend_Controller_Request_Http;
+                
+                if ($request->isXmlHttpRequest()) {
+                    //request is ajax request
+                    //send response as json
+                    
+                    $responseJson = array(
+                        'status' => 'ok',
+                        'statusMessage' => 'User ' . $user['first_name'] . ' ' . $user['last_name'] . ' has been disabled.', 'success'
+                    );
+                    
+                    $this->getHelper('Json')->sendJson($responseJson);
+                    
+                }
+                else {
+                    // ako nije ajax onda uradi obican redirect
+                    $flashMessenger->addMessage('User ' . $user['first_name'] . ' ' . $user['last_name'] . ' has been disabled.', 'success');
                     $redirector = $this->getHelper('Redirector');
                     $redirector->setExit(true)
                             ->gotoRoute(array(
                                 'controller' => 'admin_users',
                                 'action' => 'index'
                                 ), 'default', true);
+                }
+
             } 
             catch (Application_Model_Exception_InvalidInput $ex) {
-                $flashMessenger->addMessage($ex->getMessage(), 'errors');
-                $redirector = $this->getHelper('Redirector');
-                $redirector->setExit(true)
-                        ->gotoRoute(array(
-                            'controller' => 'admin_users',
-                            'action' => 'index'
-                            ), 'default', true);
+                if ($request->isXmlHttpRequest()) {
+                    //request is ajax
+                    $responseJson = array(
+                        'status' => 'error',
+                        'statusMessage' => $ex->getMessage()
+                    );
+                    //send json as response
+                    $this->getHelper('Json')->sendJson($responseJson);
+                }
+                else {
+                    //request is not ajax
+                    $flashMessenger->addMessage($ex->getMessage(), 'errors');
+                    $redirector = $this->getHelper('Redirector');
+                    $redirector->setExit(true)
+                            ->gotoRoute(array(
+                                'controller' => 'admin_users',
+                                'action' => 'index'
+                                ), 'default', true);
+                }
             }
             
 

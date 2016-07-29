@@ -446,9 +446,17 @@
         public function dashboardAction() {
             
             Zend_Layout::getMvcInstance()->disableLayout();
-            echo "<p>sdaf</p>";
-            return "1";
             
+            //$this->getHelper("viewRenderer")->setNoRender(true);
+            
+            $this->_helper->viewRenderer->setNoRender(true);
+            
+            echo "10";
+            echo " / ";
+            echo "15";
+            
+            // probaj da ne disajblujes sve ovo nego da posaljes preko json
+            //send JSON(5)
         }
         
     }

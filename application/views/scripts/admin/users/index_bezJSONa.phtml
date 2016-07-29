@@ -1,17 +1,14 @@
 <?php
 $this->headTitle('Users');
 ?>
-
 <div class="page-header">
     <h1>Users</h1>
 </div>
-
 <div class="row">
-    <div class="col-lg-12" id="system-messages-container">
-        <?php echo $this->systemMessagesHtml($this->systemMessages); ?>
+    <div class="col-lg-12">
+<?php echo $this->systemMessagesHtml($this->systemMessages); ?>
     </div>
 </div>
-
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
@@ -37,7 +34,7 @@ $this->headTitle('Users');
                         </tr>
                     </thead>
                     <tbody>
-                        <?php /*
+                        <?php
                         foreach ($this->users as $user) {
                             if ($user['status'] == Application_Model_DbTable_CmsUsers::STATUS_DISABLED) {
                                 ?>
@@ -84,12 +81,9 @@ $this->headTitle('Users');
 
                             <?php
                         }
-                         */
-                         
                         ?>
-                        
+
                     </tbody>
-                    
                 </table>
 
 
@@ -190,18 +184,6 @@ $this->headTitle('Users');
     <input type="hidden" name="sorted_ids" value="">
 </form>
 
-<div style="display: none">
-    <div data-container="message-box-success" class="alert alert-success alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <span data-container="message-text"></span>
-    </div>
-
-    <div data-container="message-box-error" class="alert alert-danger alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <span data-container="message-text"></span>
-    </div>
-</div>
-
 
 <?php
     $this->headLink()->appendStylesheet($this->baseUrl('/admin/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css'));
@@ -283,60 +265,17 @@ $this->headTitle('Users');
        
     });
   
-  
-  
-    $('#rows-table').DataTable({
-        
+    $('#rows-table').dataTable({
         columnDefs: [
-            {targets: [5], orderable: false, searchable: false},
-            {targets: [0, 5], className: 'text-center'}
+            {targets: [5], orderable: false, searchable: false}
         ],
         order: [
-            [2, 'asc']
-        ],
-        lengthMenu: [10, 20, 50, 100],
+                    [2, 'asc']
+                ],
+        lengthMenu: [3, 5, 10, 20, 50, 100],
         serverSide: true,  //na svaki klik pitaj server da ti vrati
         processing: true,
-        
         ajax: "<?php echo $this->url(array('controller' => 'admin_users', 'action' => 'datatable'), 'default', true); ?>"  //
-        
-    });
-    
-    
-    
-    $('#disable-warning-dialog').on('submit', function(e) {
-        
-       e.preventDefault(); //stop manual form submit
-       
-       var target = $(this).is('#disable-warning-dialog') ? $(this) : $(this).closest('#disable-warning-dialog');
-       
-       $.ajax({
-            url: '<?php echo $this->url(array('controller' => 'admin_users', 'action' => 'disable'), 'default', true); ?>',
-            method: 'post', //kad je post ne mora kesiranje da se iskljuci
-            data: {
-                task: 'disable',
-                id: target.find('[name="id"]').val() //ovako dohvatamo id iz forme 
-            }
-       }).done(function(data) {
-            if (data['status'] === 'ok') {
-                var messageBox = $('[data-container="message-box-success"]').last().clone(true); //klonirali smo template (true->klonirali smo i akcije koje vaze)
-                messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
-                $('#system-messages-container').append(messageBox);
-            }
-            else {
-                var messageBox = $('[data-container="message-box-error"]').last().clone(true); //klonirali smo template (true->klonirali smo i akcije koje vaze)
-                messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
-                $('#system-messages-container').append(messageBox);
-            }
-       }).fail(function() {
-           //error in communication with server
-           alert('Erro: Server returned error');
-           
-       }).always(function() {
-           target.modal('hide');
-           $('#rows-table').DataTable().draw(false); //iscrtaj ponovo tabelu (false znaci da ostane na istoj strani tabele
-       });
-       
     });
   
   
