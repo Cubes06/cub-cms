@@ -14,7 +14,7 @@ echo $this->json($json);
 
 //Layout is being disabled
 //View script rendering is being disabled
-//Content-Type header is being se to 'application/json'
+//Content-Type header is being set to 'application/json'
 //Convert $json php variable into JSON (json_encode)
 //echo json encoded variable into response body
 

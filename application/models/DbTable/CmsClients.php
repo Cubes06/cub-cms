@@ -40,10 +40,12 @@
         public function updateOrderOfClients($sortedIds) {
             
             foreach ($sortedIds as $orderNumber => $id) {
-                $this->update(array(
-                        'order_number' => $orderNumber + 1 
-                    ), 'id = ' . $id);
+                $this->update(
+                        array('order_number' => $orderNumber + 1), 
+                        'id = ' . $id
+                );
             }
+            
         }
         
         
@@ -85,6 +87,44 @@
             $this->update(array(
                 'status' => self::STATUS_ENABLED
             ), 'id = ' . $id);
+        }
+        
+        
+        public function getActiveClients() {
+            $select = $this->select();
+            
+            $select->from('cms_clients', array("num" => "COUNT(*)"))
+                   ->where('status = ?', self::STATUS_ENABLED);
+
+            $row = $this->fetchRow($select);
+
+            if ($row instanceof Zend_Db_Table_Row) {
+                return $row["num"];
+            }
+            else {
+                return 0;
+            }
+        }
+        
+        
+        public function getTotalClients() {
+            $select = $this->select();
+            
+            $select->from('cms_clients', array("num" => "COUNT(*)"));
+
+            $row = $this->fetchRow($select);
+
+            if ($row instanceof Zend_Db_Table_Row) {
+                return $row["num"];
+            }
+            else {
+                return 0;
+            }
+            
+           
+//            $total = $this->fetchRow('SELECT COUNT(*) AS ukupno FROM cms_clients');           
+//            return $total['ukupno'];
+            
         }
         
       

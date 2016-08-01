@@ -97,4 +97,38 @@
         }
         
         
+        public function getActiveServices() {
+            $select = $this->select();
+            
+            $select->from('cms_services', array("num" => "COUNT(*)"))
+                   ->where('status = ?', self::STATUS_ENABLED);
+
+            $row = $this->fetchRow($select);
+
+            if ($row instanceof Zend_Db_Table_Row) {
+                return $row["num"];
+            }
+            else {
+                return 0;
+            }
+        }
+        
+        
+        public function getTotalServices() {
+            $select = $this->select();
+            
+            $select->from('cms_services', array("num" => "COUNT(*)"));
+
+            $row = $this->fetchRow($select);
+
+            if ($row instanceof Zend_Db_Table_Row) {
+                return $row["num"];
+            }
+            else {
+                return 0;
+            }
+            
+        }
+        
+        
     } //end of: class Application_Model_DbTable_CmsServices

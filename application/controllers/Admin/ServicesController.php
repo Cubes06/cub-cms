@@ -376,8 +376,48 @@
         
         
         public function dashboardAction() {
-            return "3";
+            
+            $cmsServicesTable = new Application_Model_DbTable_CmsServices();
+            
+            $active = $cmsServicesTable->getActiveServices();
+            $total = $cmsServicesTable->getTotalServices();
+            
+            $this->view->active =  $active;
+            $this->view->total =  $total;
+            
         }
+        
+        
+        public function dashboard2Action() {
+            
+            $cmsServicesTable = new Application_Model_DbTable_CmsServices();
+            
+            $active = $cmsServicesTable->getActiveServices();
+            $total = $cmsServicesTable->getTotalServices();
+            
+            $this->view->active =  $active;
+            $this->view->total =  $total;
+            
+        }
+        
+        
+        public function dashboard3Action() {
+            
+            Zend_Layout::getMvcInstance()->disableLayout();
+            
+            //$this->getHelper("viewRenderer")->setNoRender(true);
+            $this->_helper->viewRenderer->setNoRender(true);
+            
+            $cmsServicesTable = new Application_Model_DbTable_CmsServices();
+            
+            $active = $cmsServicesTable->getActiveServices();
+            $total = $cmsServicesTable->getTotalServices();
+            
+            
+            echo $active . " / " . $total;
+            
+        }
+        
         
     }
 

@@ -445,19 +445,48 @@
         
         public function dashboardAction() {
             
+            $cmsMembersTable = new Application_Model_DbTable_CmsMembers();
+            
+            $active = $cmsMembersTable->getActiveMembers();
+            $total = $cmsMembersTable->getTotalMembers();
+            
+            $this->view->active =  $active;
+            $this->view->total =  $total;
+            
+        }
+        
+        
+        public function dashboard2Action() {
+            
+            $cmsMembersTable = new Application_Model_DbTable_CmsMembers();
+            
+            $active = $cmsMembersTable->getActiveMembers();
+            $total = $cmsMembersTable->getTotalMembers();
+            
+            $this->view->active =  $active;
+            $this->view->total =  $total;
+            
+        }
+        
+        
+        public function dashboard3Action() {
+            
             Zend_Layout::getMvcInstance()->disableLayout();
             
             //$this->getHelper("viewRenderer")->setNoRender(true);
-            
             $this->_helper->viewRenderer->setNoRender(true);
             
-            echo "10";
-            echo " / ";
-            echo "15";
+            $cmsMembersTable = new Application_Model_DbTable_CmsMembers();
             
-            // probaj da ne disajblujes sve ovo nego da posaljes preko json
-            //send JSON(5)
+            $active = $cmsMembersTable->getActiveMembers();
+            $total = $cmsMembersTable->getTotalMembers();
+            
+            
+            echo $active . " / " . $total;
+            
         }
         
+        
+        //
     }
 

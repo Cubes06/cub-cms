@@ -420,14 +420,45 @@
         
         
         public function dashboardAction() {
-            //Zend_Layout::getMvcInstance()->disableLayout();
             
-            $test = 5;
-            $test2 = 10;
-            $this->view->test = $test;
-            $this->view->test2 = $test2;
+            $cmsClientsTable = new Application_Model_DbTable_CmsClients();
             
-
+            $active = $cmsClientsTable->getActiveClients();
+            $total = $cmsClientsTable->getTotalClients();
+            
+            $this->view->active =  $active;
+            $this->view->total =  $total;
+            
+        }//endf
+        
+        public function dashboard2Action() {
+            
+            $cmsClientsTable = new Application_Model_DbTable_CmsClients();
+            
+            $active = $cmsClientsTable->getActiveClients();
+            $total = $cmsClientsTable->getTotalClients();
+            
+            $this->view->active =  $active;
+            $this->view->total =  $total;
+            
+        }
+        
+        
+        public function dashboard3Action() {
+            
+            Zend_Layout::getMvcInstance()->disableLayout();
+            
+            //$this->getHelper("viewRenderer")->setNoRender(true);
+            $this->_helper->viewRenderer->setNoRender(true);
+            
+            $cmsClientsTable = new Application_Model_DbTable_CmsClients();
+            
+            $active = $cmsClientsTable->getActiveClients();
+            $total = $cmsClientsTable->getTotalClients();
+            
+            
+            echo $active . " / " . $total;
+            
         }
         
     }

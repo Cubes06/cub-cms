@@ -1,5 +1,5 @@
 <?php
-$this->headTitle('Users');
+    $this->headTitle('Users');
 ?>
 
 <div class="page-header">
@@ -306,7 +306,7 @@ $this->headTitle('Users');
     
     $('#disable-warning-dialog').on('submit', function(e) {
         
-       e.preventDefault(); //stop manual form submit
+       e.preventDefault(); //stop manual disable-form submit
        
        var target = $(this).is('#disable-warning-dialog') ? $(this) : $(this).closest('#disable-warning-dialog');
        
@@ -315,7 +315,7 @@ $this->headTitle('Users');
             method: 'post', //kad je post ne mora kesiranje da se iskljuci
             data: {
                 task: 'disable',
-                id: target.find('[name="id"]').val() //ovako dohvatamo id iz forme 
+                id: target.find('[name="id"]').val() //ovako dohvatamo id iz forme (target je forma, name atribut je jedinstven pa trazimo preko njega
             }
        }).done(function(data) {
             if (data['status'] === 'ok') {
@@ -330,7 +330,115 @@ $this->headTitle('Users');
             }
        }).fail(function() {
            //error in communication with server
-           alert('Erro: Server returned error');
+           alert('Error: Server returned error');
+           
+       }).always(function() {
+           target.modal('hide');
+           $('#rows-table').DataTable().draw(false); //iscrtaj ponovo tabelu (false znaci da ostane na istoj strani tabele
+       });
+       
+    });
+    
+    
+    $('#enable-warning-dialog').on('submit', function(e) {
+        
+       e.preventDefault(); //stop manual disable-form submit
+       
+       var target = $(this).is('#enable-warning-dialog') ? $(this) : $(this).closest('#enable-warning-dialog');
+       
+       $.ajax({
+            url: '<?php echo $this->url(array('controller' => 'admin_users', 'action' => 'enable'), 'default', true); ?>',
+            method: 'post', //kad je post ne mora kesiranje da se iskljuci
+            data: {
+                task: 'enable',
+                id: target.find('[name="id"]').val() //ovako dohvatamo id iz forme (target je forma, name atribut je jedinstven pa trazimo preko njega
+            }
+       }).done(function(data) {
+            if (data['status'] === 'ok') {
+                var messageBox = $('[data-container="message-box-success"]').last().clone(true); //klonirali smo template (true->klonirali smo i akcije koje vaze)
+                messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
+                $('#system-messages-container').append(messageBox);
+            }
+            else {
+                var messageBox = $('[data-container="message-box-error"]').last().clone(true); //klonirali smo template (true->klonirali smo i akcije koje vaze)
+                messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
+                $('#system-messages-container').append(messageBox);
+            }
+       }).fail(function() {
+           //error in communication with server
+           alert('Error: Server returned error');
+           
+       }).always(function() {
+           target.modal('hide');
+           $('#rows-table').DataTable().draw(false); //iscrtaj ponovo tabelu (false znaci da ostane na istoj strani tabele
+       });
+       
+    });
+    
+    
+    $('#delete-warning-dialog').on('submit', function(e) {
+        
+       e.preventDefault(); //stop manual disable-form submit
+       
+       var target = $(this).is('#delete-warning-dialog') ? $(this) : $(this).closest('#delete-warning-dialog');
+       
+       $.ajax({
+            url: '<?php echo $this->url(array('controller' => 'admin_users', 'action' => 'delete'), 'default', true); ?>',
+            method: 'post', //kad je post ne mora kesiranje da se iskljuci
+            data: {
+                task: 'delete',
+                id: target.find('[name="id"]').val() //ovako dohvatamo id iz forme (target je forma, name atribut je jedinstven pa trazimo preko njega
+            }
+       }).done(function(data) {
+            if (data['status'] === 'ok') {
+                var messageBox = $('[data-container="message-box-success"]').last().clone(true); //klonirali smo template (true->klonirali smo i akcije koje vaze)
+                messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
+                $('#system-messages-container').append(messageBox);
+            }
+            else {
+                var messageBox = $('[data-container="message-box-error"]').last().clone(true); //klonirali smo template (true->klonirali smo i akcije koje vaze)
+                messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
+                $('#system-messages-container').append(messageBox);
+            }
+       }).fail(function() {
+           //error in communication with server
+           alert('Error: Server returned error');
+           
+       }).always(function() {
+           target.modal('hide');
+           $('#rows-table').DataTable().draw(false); //iscrtaj ponovo tabelu (false znaci da ostane na istoj strani tabele
+       });
+       
+    });
+    
+    
+    $('#resetpassword-warning-dialog').on('submit', function(e) {
+        
+       e.preventDefault(); //stop manual disable-form submit
+       
+       var target = $(this).is('#resetpassword-warning-dialog') ? $(this) : $(this).closest('#resetpassword-warning-dialog');
+       
+       $.ajax({
+            url: '<?php echo $this->url(array('controller' => 'admin_users', 'action' => 'resetpassword'), 'default', true); ?>',
+            method: 'post', //kad je post ne mora kesiranje da se iskljuci
+            data: {
+                task: 'resetPassword',
+                id: target.find('[name="id"]').val() //ovako dohvatamo id iz forme (target je forma, name atribut je jedinstven pa trazimo preko njega
+            }
+       }).done(function(data) {
+            if (data['status'] === 'ok') {
+                var messageBox = $('[data-container="message-box-success"]').last().clone(true); //klonirali smo template (true->klonirali smo i akcije koje vaze)
+                messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
+                $('#system-messages-container').append(messageBox);
+            }
+            else {
+                var messageBox = $('[data-container="message-box-error"]').last().clone(true); //klonirali smo template (true->klonirali smo i akcije koje vaze)
+                messageBox.find('[data-container="message-text"]').text(data['statusMessage']);
+                $('#system-messages-container').append(messageBox);
+            }
+       }).fail(function() {
+           //error in communication with server
+           alert('Error: Server returned error');
            
        }).always(function() {
            target.modal('hide');

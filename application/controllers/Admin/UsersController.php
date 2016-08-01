@@ -210,22 +210,53 @@
                 
 
                 $cmsUsersTable->deleteUser($id);
-                $flashMessenger->addMessage('User ' . $user['first_name'] . ' ' . $user['last_name'] . ' has been deleted.', 'success');
+                
+                //proveravamo da li je zahtev ajax ili ne
+                $request instanceof Zend_Controller_Request_Http;
+                
+                if ($request->isXmlHttpRequest()) {
+                    //request is ajax request
+                    //send response as json
+                    
+                    $responseJson = array(
+                        'status' => 'ok',
+                        'statusMessage' => 'User ' . $user['first_name'] . ' ' . $user['last_name'] . ' has been deleted.', 'success'
+                    );
+                    
+                    $this->getHelper('Json')->sendJson($responseJson);
+                    
+                }
+                else {
+                    $flashMessenger->addMessage('User ' . $user['first_name'] . ' ' . $user['last_name'] . ' has been deleted.', 'success');
                     $redirector = $this->getHelper('Redirector');
                     $redirector->setExit(true)
                             ->gotoRoute(array(
                                 'controller' => 'admin_users',
                                 'action' => 'index'
                                 ), 'default', true);
+                }
+                
+                
             } 
             catch (Application_Model_Exception_InvalidInput $ex) {
-                $flashMessenger->addMessage($ex->getMessage(), 'errors');
-                $redirector = $this->getHelper('Redirector');
-                $redirector->setExit(true)
-                        ->gotoRoute(array(
-                            'controller' => 'admin_users',
-                            'action' => 'index'
-                            ), 'default', true);
+                if ($request->isXmlHttpRequest()) {
+                    //request is ajax
+                    $responseJson = array(
+                        'status' => 'error',
+                        'statusMessage' => $ex->getMessage()
+                    );
+                    //send json as response
+                    $this->getHelper('Json')->sendJson($responseJson);
+                }
+                else {
+                    $flashMessenger->addMessage($ex->getMessage(), 'errors');
+                    $redirector = $this->getHelper('Redirector');
+                    $redirector->setExit(true)
+                            ->gotoRoute(array(
+                                'controller' => 'admin_users',
+                                'action' => 'index'
+                                ), 'default', true);
+                }
             }
             
         }
@@ -327,7 +358,7 @@
             $request = $this->getRequest();
             
             if (!$request->isPost() || $request->getPost('task') != 'enable') {
-                // request is not post or task is not disable
+                // request is not post or task is not enable
                 // redirect to index page
                 $redirector = $this->getHelper('Redirector');
                 $redirector->setExit(true)
@@ -345,6 +376,7 @@
                 if ($id <= 0) {
                     throw new Application_Model_Exception_InvalidInput('Invalid user id: ' . $id);
                 }
+                
                 $loggedInUser = Zend_Auth::getInstance()->getIdentity();
                 if ($id == $loggedInUser['id']) {
                     //redirect user to edit profile page
@@ -359,79 +391,142 @@
                 }
 
                 $cmsUsersTable->enableUser($id);
-                $flashMessenger->addMessage('User ' . $user['first_name'] . ' ' . $user['last_name'] . ' has been enabled.', 'success');
+                
+                //proveravamo da li je zahtev ajax ili ne
+                $request instanceof Zend_Controller_Request_Http;
+                
+                if ($request->isXmlHttpRequest()) {
+                    //request is ajax request
+                    //send response as json
+                    
+                    $responseJson = array(
+                        'status' => 'ok',
+                        'statusMessage' => 'User ' . $user['first_name'] . ' ' . $user['last_name'] . ' has been enabled.', 
+                        'success'
+                    );
+                    
+                    $this->getHelper('Json')->sendJson($responseJson);
+                }
+                else {
+                    $flashMessenger->addMessage('User ' . $user['first_name'] . ' ' . $user['last_name'] . ' has been enabled.', 'success');
                     $redirector = $this->getHelper('Redirector');
                     $redirector->setExit(true)
                             ->gotoRoute(array(
                                 'controller' => 'admin_users',
                                 'action' => 'index'
                                 ), 'default', true);
+                }
+                
             } 
             catch (Application_Model_Exception_InvalidInput $ex) {
-                $flashMessenger->addMessage($ex->getMessage(), 'errors');
-                $redirector = $this->getHelper('Redirector');
-                $redirector->setExit(true)
-                        ->gotoRoute(array(
-                            'controller' => 'admin_users',
-                            'action' => 'index'
-                            ), 'default', true);
+                if ($request->isXmlHttpRequest()) {
+                    //request is ajax
+                    $responseJson = array(
+                        'status' => 'error',
+                        'statusMessage' => $ex->getMessage()
+                    );
+                    //send json as response
+                    $this->getHelper('Json')->sendJson($responseJson);
+                }
+                else {
+                    $flashMessenger->addMessage($ex->getMessage(), 'errors');
+                    $redirector = $this->getHelper('Redirector');
+                    $redirector->setExit(true)
+                            ->gotoRoute(array(
+                                'controller' => 'admin_users',
+                                'action' => 'index'
+                                ), 'default', true);
+                }
+                
             }
-    }
+        }
     
 
         public function resetpasswordAction() {
-        $request = $this->getRequest();
+            $request = $this->getRequest();
 
-        $flashMessenger = $this->getHelper('FlashMessenger');
+            $flashMessenger = $this->getHelper('FlashMessenger');
 
-        $systemMessages = array(
-            'success' => $flashMessenger->getMessages('success'),
-            'errors' => $flashMessenger->getMessages('errors')
-        );
-        if ($request->isPost() && $request->getPost('task') === 'resetPassword') {
-            try {
-                // read $_POST['id]
-                $id = (int) $request->getPost('id');
+            $systemMessages = array(
+                'success' => $flashMessenger->getMessages('success'),
+                'errors' => $flashMessenger->getMessages('errors')
+            );
+            if ($request->isPost() && $request->getPost('task') === 'resetPassword') {
+                try {
+                    // read $_POST['id]
+                    $id = (int) $request->getPost('id');
 
-                if ($id <= 0) {
-                    throw new Application_Model_Exception_InvalidInput('Invalid user id: ' . $id);
+                    if ($id <= 0) {
+                        throw new Application_Model_Exception_InvalidInput('Invalid user id: ' . $id);
+                    }
+                    $loggedInUser = Zend_Auth::getInstance()->getIdentity();
+                    if ($id == $loggedInUser['id']) {
+                        //redirect user to edit profile page
+                        throw new Application_Model_Exception_InvalidInput('You can not reset password for your account!');
+                    }
+                    $cmsUsersTable = new Application_Model_DbTable_CmsUsers();
+
+                    $user = $cmsUsersTable->getUserById($id);
+
+                    if (empty($user)) {
+                        throw new Application_Model_Exception_InvalidInput('No user is found with id: ' . $id);
+                    }
+
+                    $cmsUsersTable->changeUserPassword($id, Application_Model_DbTable_CmsUsers::DEFAULT_PASSWORD);
+                    
+                    //proveravamo da li je zahtev ajax ili ne
+                    $request instanceof Zend_Controller_Request_Http;
+
+                    if ($request->isXmlHttpRequest()) {
+                        //request is ajax request
+                        //send response as json
+
+                        $responseJson = array(
+                            'status' => 'ok',
+                            'statusMessage' => 'Password has been reset for user ' . $user['first_name'] . ' ' . $user['last_name'] , 
+                            'success'
+                        );
+
+                        $this->getHelper('Json')->sendJson($responseJson);
+
+                    }
+                    else {
+                        $flashMessenger->addMessage('Password of user ' . $user['first_name'] . ' ' . $user['last_name'] . ' has been reset', 'success');
+
+                        $redirector = $this->getHelper('Redirector');
+                        $redirector->setExit(true)
+                                ->gotoRoute(array(
+                                    'controller' => 'admin_users',
+                                    'action' => 'index'
+                                        ), 'default', true);
+                    }
+
+                    
+                } 
+                catch (Application_Model_Exception_InvalidInput $ex) {
+                    if ($request->isXmlHttpRequest()) {
+                        //request is ajax
+                        $responseJson = array(
+                            'status' => 'error',
+                            'statusMessage' => $ex->getMessage()
+                        );
+                        //send json as response
+                        $this->getHelper('Json')->sendJson($responseJson);
+                    }
+                    else {
+                        $flashMessenger->addMessage($ex->getMessage(), 'errors');
+                        $redirector = $this->getHelper('Redirector');
+                        $redirector->setExit(true)
+                                ->gotoRoute(array(
+                                    'controller' => 'admin_users',
+                                    'action' => 'index'
+                                        ), 'default', true);
+                    }
                 }
-                $loggedInUser = Zend_Auth::getInstance()->getIdentity();
-                if ($id == $loggedInUser['id']) {
-                    //redirect user to edit profile page
-                    throw new Application_Model_Exception_InvalidInput('You can not reset password for your account!');
-                }
-                $cmsUsersTable = new Application_Model_DbTable_CmsUsers();
-
-                $user = $cmsUsersTable->getUserById($id);
-
-                if (empty($user)) {
-                    throw new Application_Model_Exception_InvalidInput('No user is found with id: ' . $id);
-                }
-
-                $cmsUsersTable->changeUserPassword($id, Application_Model_DbTable_CmsUsers::DEFAULT_PASSWORD);
-
-                $flashMessenger->addMessage('Password of user ' . $user['first_name'] . ' ' . $user['last_name'] . ' has been reset', 'success');
-
-                $redirector = $this->getHelper('Redirector');
-                $redirector->setExit(true)
-                        ->gotoRoute(array(
-                            'controller' => 'admin_users',
-                            'action' => 'index'
-                                ), 'default', true);
-            } catch (Application_Model_Exception_InvalidInput $ex) {
-                $flashMessenger->addMessage($ex->getMessage(), 'errors');
-                $redirector = $this->getHelper('Redirector');
-                $redirector->setExit(true)
-                        ->gotoRoute(array(
-                            'controller' => 'admin_users',
-                            'action' => 'index'
-                                ), 'default', true);
             }
+            $this->view->systemMessages = $systemMessages;
+            $this->view->form = $form;
         }
-        $this->view->systemMessages = $systemMessages;
-        $this->view->form = $form;
-    }
     
     
         public function datatableAction() {
@@ -544,7 +639,42 @@
         
         
         public function dashboardAction() {
-            return "4";
+            $cmsUsersTable = new Application_Model_DbTable_CmsUsers();
+            
+            $active = $cmsUsersTable->getActiveUsers();
+            $total = $cmsUsersTable->getTotalUsers();
+            
+            $this->view->active =  $active;
+            $this->view->total =  $total;
+        }
+        
+        
+        public function dashboard2Action() {
+            $cmsUsersTable = new Application_Model_DbTable_CmsUsers();
+            
+            $active = $cmsUsersTable->getActiveUsers();
+            $total = $cmsUsersTable->getTotalUsers();
+            
+            $this->view->active =  $active;
+            $this->view->total =  $total;
+        }
+        
+        
+        public function dashboard3Action() {
+            
+            Zend_Layout::getMvcInstance()->disableLayout();
+            
+            //$this->getHelper("viewRenderer")->setNoRender(true);
+            $this->_helper->viewRenderer->setNoRender(true);
+            
+            $cmsUsersTable = new Application_Model_DbTable_CmsUsers();
+            
+            $active = $cmsUsersTable->getActiveUsers();
+            $total = $cmsUsersTable->getTotalUsers();
+            
+            
+            echo $active . " / " . $total;
+            
         }
 
     }
