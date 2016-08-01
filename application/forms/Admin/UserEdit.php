@@ -4,6 +4,7 @@ class Application_Form_Admin_UserEdit extends Zend_Form {
     
     protected $editedUserId;
     
+    
     public function __construct($editedUserId, $options = null) {
         if (empty($editedUserId)) {
             throw new InvalidArgumentException('Edited user id can not be empty');
@@ -12,7 +13,7 @@ class Application_Form_Admin_UserEdit extends Zend_Form {
         $this->editedUserId = $editedUserId;
         
         parent::__construct($options);
-    }
+    }//endf
 
     
     // Overajdovan init metoda
@@ -22,7 +23,7 @@ class Application_Form_Admin_UserEdit extends Zend_Form {
         $username->addFilter('StringTrim')
                 ->addValidator('StringLength', false, array('min' => 3, 'max' => 50))
                 ->addValidator(
-                        new Zend_Validate_Db_NoRecordExists(
+                        new Zend_Validate_Db_NoRecordExists(                    //korisna stvar (moze da se koristi i za username i email
                             array(
                                 'table' => 'cms_users',
                                 'field' => 'username',

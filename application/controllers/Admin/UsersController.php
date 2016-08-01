@@ -2,6 +2,7 @@
 
     class Admin_UsersController extends Zend_Controller_Action {
 
+        
         public function indexAction() {
 
             $flashMessenger = $this->getHelper('FlashMessenger');
@@ -14,7 +15,7 @@
             
             $this->view->users = array();
             $this->view->systemMessages = $systemMessages;
-        }
+        }//endf
         
 
         public function addAction() {
@@ -73,7 +74,7 @@
 
             $this->view->systemMessages = $systemMessages;
             $this->view->form = $form;
-        }
+        }//endf
         
         
         public function editAction() {

@@ -57,11 +57,10 @@
                                             <ul class="thumbnails list-unstyled team">
                                     <?php }
                                     $i++;
-                                    $memberUrl = $this->baseUrl('/aboutus/member/id/' . $member['id']);
                                     ?>
                                     <li class="col-sm-6 col-md-3">
                                        <a 
-                                           href="<?php echo $memberUrl; ?>"
+                                           href="<?php echo $this->memberUrl($member); ?>"
                                         >
                                            <img alt="<?php echo $this->escape($member["first_name"]); ?>" class="img-polaroid" src="<?php echo $this->memberImgUrl($member); ?>">
                                        </a>
@@ -70,7 +69,7 @@
                                                data-original-title="<?php echo $this->escape($member["first_name"] . ' ' . $member['last_name']); ?>" 
                                                data-content="<?php echo $this->escape($member["work_title"]); ?>" 
                                                class="_popover" 
-                                               href="<?php echo $memberUrl; ?>"
+                                               href="<?php echo $this->memberUrl($member); ?>"
                                             ><?php echo $this->escape($member["first_name"]); ?></a>
                                        </h4>
                                    </li>

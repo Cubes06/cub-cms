@@ -23,3 +23,12 @@ echo $this->json($json);
 output buffering
 interno se poziva funkcija ob_start();
 a na captureEnd() se poziva ob_end();
+
+
+
+//o-fakultetu/dokumenta/akreditacija/
+
+URL Slug (geler):
+/o-fakultetu
+/dokumenta
+/akreditacija

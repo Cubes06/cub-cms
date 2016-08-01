@@ -38,6 +38,8 @@
                 throw new Zend_Controller_Router_Exception("No member id", 404);
             }
             
+            
+            
             $cmsMembersDbTable = new Application_Model_DbTable_CmsMembers();
             $select = $cmsMembersDbTable->select();
             $select->where("id = ?", $id)
@@ -50,6 +52,20 @@
             
             $member = $foundMembers[0];
             //isto kao gore   $member = array_shift($foundMembers);
+            $memberSlug = $request->getParam('member_slug');
+            
+            if (empty($memberSlug)) {
+                $redirector = $this->getHelper('Redirector');
+                $redirector->setExit(true)
+                           ->gotoRoute(
+                                    array(
+                                        'id' => $member['id'],
+                                        'member_slug' => $member[first_name] . '-' . $member['last_name']
+                                    ), 
+                                   'member-route', 
+                                   true
+                            );
+            }
             
             //Fetching all other members
             $select = $cmsMembersDbTable->select();
