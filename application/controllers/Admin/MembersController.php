@@ -15,14 +15,30 @@
             
             // prikaz svih member-a
             $cmsMembersDbTable = new Application_Model_DbTable_CmsMembers();
-            // $select jed objekat klase Zend_Db_Select
-            $select = $cmsMembersDbTable->select();
-            $select->order('order_number ASC');
+            
+            
+            
+            // $select je od objekat klase Zend_Db_Select
+//            $select = $cmsMembersDbTable->select();
+//            $select->order('order_number ASC');
+            
             
             //debug za db select - vrace se sql upit
             //die($select->assemble());
                    
-            $members = $cmsMembersDbTable->fetchAll($select);
+//            $members = $cmsMembersDbTable->fetchAll($select);
+            
+            $members = $cmsMembersDbTable->search(array(
+                'filters' => array(
+                    //'status' => Application_Model_DbTable_CmsMembers::STATUS_DISABLED
+                    //'first_name_search' => 'Ale'
+                    //'first_name' => array('Aleksandra', 'Bojan')
+                    //'id' => array(1, 3, 5, 6)
+                ),
+                'orders' => array(
+                    'order_number' => 'ASC'
+                )
+            ));
             
             $this->view->members = $members;
             $this->view->systemMessages = $systemMessages;

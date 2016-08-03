@@ -11,20 +11,26 @@
             
             $router instanceof Zend_Controller_Router_Rewrite;
             //dodajemo rute, poslednja ruta ima veci prioritet.
-            $router->addRoute('about-us-route', new Zend_Controller_Router_Route_Static(
-                            'about-us',
-                            array(
-                                'controller' => 'aboutus',
-                                'action' => 'index'
-                            )
-                    ))->addRoute('member-route', new Zend_Controller_Router_Route(
-                            'about-us/member/:id/:member_slug',
-                            array(
-                                'controller' => 'aboutus',
-                                'action' => 'member',
-                                'member_slug' => ''
-                            )
-                    ));
+            $router->addRoute( 
+                'about-us-route', 
+                new Zend_Controller_Router_Route_Static (
+                        'about-us',
+                        array(
+                            'controller' => 'aboutus',
+                            'action' => 'index'
+                        )
+                )
+            )->addRoute(
+                'member-route', 
+                new Zend_Controller_Router_Route (
+                        'about-us/member/:id/:member_slug',
+                        array(
+                            'controller' => 'aboutus',
+                            'action' => 'member',
+                            'member_slug' => ''
+                        )
+                )
+            );
             
             
             
