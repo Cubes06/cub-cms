@@ -309,6 +309,106 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <p>Mil 4:</p>
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-table fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div id="membersNumbers5" class="huge"></div>
+                                    <div>Members total / active</div>
+                                </div>
+                            </div> 
+                        </div> 
+                        <a href="#">
+                            <div class="panel-footer">
+                                <a href=" <?php echo $this->url(array('controller' => 'admin_members', 'action' => 'index'), 'default', 'true'); ?> ">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </a>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-briefcase fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div id="servicesNumbers5" class="huge"></div>
+                                    <div>Services</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <a href=" <?php echo $this->url(array('controller' => 'admin_services', 'action' => 'index'), 'default', 'true'); ?> ">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </a>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-user fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div id="usersNumbers5" class="huge"></div>
+                                    <div>Users</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <a href=" <?php echo $this->url(array('controller' => 'admin_users', 'action' => 'index'), 'default', 'true'); ?> ">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </a>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-red">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-users fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div id="clientsNumbers5" class="huge"></div>
+                                    <div>Clients</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <a href=" <?php echo $this->url(array('controller' => 'admin_clients', 'action' => 'index'), 'default', 'true'); ?> ">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </a>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
             
 
 <script>
@@ -481,7 +581,10 @@
         var servicesNumbers4 = $('#servicesNumbers4');
         var usersNumbers4 = $('#usersNumbers4');
         var clientsNumbers4 = $('#clientsNumbers4');
-
+        membersNumbers4.empty();
+        servicesNumbers4.empty();
+        usersNumbers4.empty();
+        clientsNumbers4.empty();
 
         //var ids = [];
         $.each(data, function(i, item) {
@@ -520,6 +623,119 @@
         alert('Unable to load current data for members.');
     }).always(function () {
     });
+    
+    
+    $.ajax({
+        url: "<?php echo $this->url(array('controller' => 'admin_users', 'action' => 'getstats'), 'default', true); ?>",
+        //dataType: 'json',
+        cache: false
+    }).done(function (data) {
+        var statsContainer = $('#usersNumbers5');
+        statsContainer.empty();
+
+        //var ids = [];
+        $.each(data['payload'], function(i, item) {
+            switch(i) {
+                 case "active":
+                    statsContainer.append(item);
+                    break;
+                 case "total":
+                    statsContainer.append(" / " + item);
+                    break;
+            }
+            //ids.push(i + ": " + item);
+        });
+        //alert(JSON.stringify(ids));
+
+    }).fail(function () {
+        alert('Unable to load current data for users.');
+    }).always(function () {
+    });   
+    
+    
+    $.ajax({
+        url: "<?php echo $this->url(array('controller' => 'admin_members', 'action' => 'getstats'), 'default', true); ?>",
+        //dataType: 'json',
+        cache: false
+    }).done(function (data) {
+        var statsContainer = $('#membersNumbers5');
+        statsContainer.empty();
+
+        //var ids = [];
+        $.each(data['payload'], function(i, item) {
+            switch(i) {
+                 case "active":
+                    statsContainer.append(item);
+                    break;
+                 case "total":
+                    statsContainer.append(" / " + item);
+                    break;
+            }
+            //ids.push(i + ": " + item);
+        });
+        //alert(JSON.stringify(ids));
+
+    }).fail(function () {
+        alert('Unable to load current data for users.');
+    }).always(function () {
+    });
+    
+    
+    $.ajax({
+        url: "<?php echo $this->url(array('controller' => 'admin_services', 'action' => 'getstats'), 'default', true); ?>",
+        //dataType: 'json',
+        cache: false
+    }).done(function (data) {
+        var statsContainer = $('#servicesNumbers5');
+        statsContainer.empty();
+
+        //var ids = [];
+        $.each(data['payload'], function(i, item) {
+            switch(i) {
+                 case "active":
+                    statsContainer.append(item);
+                    break;
+                 case "total":
+                    statsContainer.append(" / " + item);
+                    break;
+            }
+            //ids.push(i + ": " + item);
+        });
+        //alert(JSON.stringify(ids));
+
+    }).fail(function () {
+        alert('Unable to load current data for users.');
+    }).always(function () {
+    });
+    
+    
+    $.ajax({
+        url: "<?php echo $this->url(array('controller' => 'admin_clients', 'action' => 'getstats'), 'default', true); ?>",
+        //dataType: 'json',
+        cache: false
+    }).done(function (data) {
+        var statsContainer = $('#clientsNumbers5');
+        statsContainer.empty();
+
+        //var ids = [];
+        $.each(data['payload'], function(i, item) {
+            switch(i) {
+                 case "active":
+                    statsContainer.append(item);
+                    break;
+                 case "total":
+                    statsContainer.append(" / " + item);
+                    break;
+            }
+            //ids.push(i + ": " + item);
+        });
+        //alert(JSON.stringify(ids));
+
+    }).fail(function () {
+        alert('Unable to load current data for users.');
+    }).always(function () {
+    });
+    
     
     <?php $this->inlineScript()->captureEnd(); ?>
     

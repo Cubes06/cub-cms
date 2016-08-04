@@ -12,16 +12,24 @@
                 'errors' => $flashMessenger->getMessages('errors')
             );
             
-            // prikaz svih client-a
-            $cmsClientsDbTable = new Application_Model_DbTable_CmsClients();
-            // $select jed objekat klase Zend_Db_Select
-            $select = $cmsClientsDbTable->select();
-            $select->order('order_number ASC');
+//            // prikaz svih client-a
+//            $cmsClientsDbTable = new Application_Model_DbTable_CmsClients();
+//            // $select jed objekat klase Zend_Db_Select
+//            $select = $cmsClientsDbTable->select();
+//            $select->order('order_number ASC');
             
             //debug za db select - vrace se sql upit
             //die($select->assemble());
                    
-            $clients = $cmsClientsDbTable->fetchAll($select);
+//            $clients = $cmsClientsDbTable->fetchAll($select);
+            
+            $cmsClientsDbTable = new Application_Model_DbTable_CmsClients();
+            $clients = $cmsClientsDbTable->search(array(
+                'filters' => array(),
+                'orders' => array(
+                    'order_number' => 'ASC'
+                )
+            ));
             
             $this->view->clients = $clients;
             $this->view->systemMessages = $systemMessages;
@@ -423,11 +431,16 @@
             
             $cmsClientsTable = new Application_Model_DbTable_CmsClients();
             
-            $active = $cmsClientsTable->getActiveClients();
-            $total = $cmsClientsTable->getTotalClients();
+            $clientsActive = $cmsClientsTable->count(array(
+                'status' => Application_Model_DbTable_CmsClients::STATUS_ENABLED
+            ));
+            $clientsTotal = $cmsClientsTable->count();
             
-            $this->view->active =  $active;
-            $this->view->total =  $total;
+//            $active = $cmsClientsTable->getActiveClients();
+//            $total = $cmsClientsTable->getTotalClients();
+            
+            $this->view->active =  $clientsActive;
+            $this->view->total =  $clientsTotal;
             
         }//endf
         
@@ -459,6 +472,23 @@
             
             echo $active . " / " . $total;
             
+        }
+        
+        
+        public function getstatsAction() {
+            $cmsClientsTable = new Application_Model_DbTable_CmsClients();
+            
+            $active = $cmsClientsTable->getActiveClients();
+            $total = $cmsClientsTable->getTotalClients();
+            
+            $responseJson = new Application_Model_JsonResponse();
+            
+            $responseJson->setPayload(array(
+                'active' => $active,
+                'total' => $total
+            ));
+            
+            $this->getHelper('Json')->sendJson($responseJson);
         }
         
     }

@@ -29,21 +29,37 @@
             $cmsMembersTable = new Application_Model_DbTable_CmsMembers();
             $activeMembers = $cmsMembersTable->getActiveMembers();
             $totalMembers = $cmsMembersTable->getTotalMembers();
+            $activeMembers = $cmsMembersTable->count(array(
+               'status' => Application_Model_DbTable_CmsMembers::STATUS_ENABLED
+            ));
+            $totalMembers = $cmsMembersTable->count();
             
             //Services
             $cmsServicesTable = new Application_Model_DbTable_CmsServices();
-            $activeServices = $cmsServicesTable->getActiveServices();
-            $totalServices = $cmsServicesTable->getTotalServices();
+//            $activeServices = $cmsServicesTable->getActiveServices();
+//            $totalServices = $cmsServicesTable->getTotalServices();
+            $activeServices = $cmsServicesTable->count(array(
+                'status' => Application_Model_DbTable_CmsServices::STATUS_ENABLED
+            ));
+            $totalServices = $cmsServicesTable->count();
             
             //Users
             $cmsUsersTable = new Application_Model_DbTable_CmsUsers();
-            $activeUsers = $cmsUsersTable->getActiveUsers();
-            $totalUsers = $cmsUsersTable->getTotalUsers();
+//            $activeUsers = $cmsUsersTable->getActiveUsers();
+//            $totalUsers = $cmsUsersTable->getTotalUsers();
+            $activeUsers = $cmsUsersTable->count(array(
+                'status' => Application_Model_DbTable_CmsUsers::STATUS_ENABLED
+            ));
+            $totalUsers = $cmsUsersTable->count();
             
             //Clients
             $cmsClientsTable = new Application_Model_DbTable_CmsClients();
-            $activeClients = $cmsClientsTable->getActiveClients();
-            $totalClients = $cmsClientsTable->getTotalClients();
+//            $activeClients = $cmsClientsTable->getActiveClients();
+//            $totalClients = $cmsClientsTable->getTotalClients();
+            $activeClients = $cmsClientsTable->count(array(
+                'status' => Application_Model_DbTable_CmsClients::STATUS_ENABLED
+            ));
+            $totalClients = $cmsClientsTable->count();
             
             $niz = array(
                 "activeMembers" => $activeMembers, 

@@ -11,11 +11,20 @@
                 'errors' => $flashMessenger->getMessages('errors')
             );
             
-            // prikaz svih servisa
+//            // prikaz svih servisa
+//            $cmsServicesDbTable = new Application_Model_DbTable_CmsServices();
+//            $select = $cmsServicesDbTable->select();
+//            $select->order('order_number ASC');
+//            $services = $cmsServicesDbTable->fetchAll($select);
+            
             $cmsServicesDbTable = new Application_Model_DbTable_CmsServices();
-            $select = $cmsServicesDbTable->select();
-            $select->order('order_number ASC');
-            $services = $cmsServicesDbTable->fetchAll($select);
+            $services = $cmsServicesDbTable->search(array(
+                'filters' => array(),
+                'orders' => array(
+                    'order_number' => 'ASC'
+                )
+            ));
+            
             
             $this->view->services = $services;
             $this->view->systemMessages = $systemMessages;
@@ -379,11 +388,16 @@
             
             $cmsServicesTable = new Application_Model_DbTable_CmsServices();
             
-            $active = $cmsServicesTable->getActiveServices();
-            $total = $cmsServicesTable->getTotalServices();
+//            $active = $cmsServicesTable->getActiveServices();
+//            $total = $cmsServicesTable->getTotalServices();
             
-            $this->view->active =  $active;
-            $this->view->total =  $total;
+            $servicesActive = $cmsServicesTable->count(array(
+                'status' => Application_Model_DbTable_CmsServices::STATUS_ENABLED
+            ));
+            $servicesTotal = $cmsServicesTable->count();
+            
+            $this->view->active =  $servicesActive;
+            $this->view->total =  $servicesTotal;
             
         }
         
@@ -418,6 +432,20 @@
             
         }
         
-        
+        public function getstatsAction() {
+            $cmsServicesTable = new Application_Model_DbTable_CmsServices();
+            
+            $active = $cmsServicesTable->getActiveServices();
+            $total = $cmsServicesTable->getTotalServices();
+            
+            $responseJson = new Application_Model_JsonResponse();
+            
+            $responseJson->setPayload(array(
+                'active' => $active,
+                'total' => $total
+            ));
+            
+            $this->getHelper('Json')->sendJson($responseJson);
+        }
     }
 

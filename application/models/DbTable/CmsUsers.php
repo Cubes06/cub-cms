@@ -180,7 +180,7 @@
             $select->reset('columns');
             // set one column/field to fetch and it is COUNT function
             $select->from($this->_name, 'COUNT(*) as total');
-
+            
             $row = $this->fetchRow($select);
 
             return $row['total'];

@@ -463,11 +463,16 @@
             
             $cmsMembersTable = new Application_Model_DbTable_CmsMembers();
             
-            $active = $cmsMembersTable->getActiveMembers();
-            $total = $cmsMembersTable->getTotalMembers();
+//            $active = $cmsMembersTable->getActiveMembers();
+//            $total = $cmsMembersTable->getTotalMembers();
             
-            $this->view->active =  $active;
-            $this->view->total =  $total;
+            $membersActive = $cmsMembersTable->count(array(
+               'status' => Application_Model_DbTable_CmsMembers::STATUS_ENABLED
+            ));
+            $membersTotal = $cmsMembersTable->count();
+            
+            $this->view->active =  $membersActive;
+            $this->view->total =  $membersTotal;
             
         }
         
@@ -502,7 +507,21 @@
             
         }
         
+        public function getstatsAction() {
+            $cmsMembersTable = new Application_Model_DbTable_CmsMembers();
+            
+            $active = $cmsMembersTable->getActiveMembers();
+            $total = $cmsMembersTable->getTotalMembers();
+            
+            $responseJson = new Application_Model_JsonResponse();
+            
+            $responseJson->setPayload(array(
+                'active' => $active,
+                'total' => $total
+            ));
+            
+            $this->getHelper('Json')->sendJson($responseJson);
+        }
         
-        //
     }
 

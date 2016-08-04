@@ -3,7 +3,8 @@
 ?>
 
 <div class="page-header">
-    <h1>Clients</h1>
+    <h1>Clients </h1>
+    <h3 id='statsContainer'></h3>
 </div>
 
 <div class="row">
@@ -307,7 +308,32 @@
     
     
     
-    
+    $.ajax({
+        url: "<?php echo $this->url(array('controller' => 'admin_clients', 'action' => 'getstats'), 'default', true); ?>",
+        //dataType: 'json',
+        cache: false
+    }).done(function (data) {
+        var statsContainer = $('#statsContainer');
+        statsContainer.empty();
+
+        //var ids = [];
+        $.each(data['payload'], function(i, item) {
+            switch(i) {
+                 case "active":
+                    statsContainer.append('current stats: ' + item);
+                    break;
+                 case "total":
+                    statsContainer.append(" / " + item);
+                    break;
+            }
+            //ids.push(i + ": " + item);
+        });
+        //alert(JSON.stringify(ids));
+
+    }).fail(function () {
+        alert('Unable to load current data for users.');
+    }).always(function () {
+    });
     
     
     

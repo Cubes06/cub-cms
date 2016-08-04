@@ -3,7 +3,8 @@
 ?>
 
 <div class="page-header">
-    <h1>Users</h1>
+    <h1>Users <small id='statsContainer'></small></h1>
+    
 </div>
 
 <div class="row">
@@ -454,6 +455,34 @@
        });
        
     });
+  
+    
+    $.ajax({
+        url: "<?php echo $this->url(array('controller' => 'admin_users', 'action' => 'getstats'), 'default', true); ?>",
+        //dataType: 'json',
+        cache: false
+    }).done(function (data) {
+        var statsContainer = $('#statsContainer');
+        statsContainer.empty();
+
+        //var ids = [];
+        $.each(data['payload'], function(i, item) {
+            switch(i) {
+                 case "active":
+                    statsContainer.append('current stats: ' + item);
+                    break;
+                 case "total":
+                    statsContainer.append(" / " + item);
+                    break;
+            }
+            //ids.push(i + ": " + item);
+        });
+        //alert(JSON.stringify(ids));
+
+    }).fail(function () {
+        alert('Unable to load current data for users.');
+    }).always(function () {
+    });   
   
   
     <?php $this->inlineScript()->captureEnd(); ?>

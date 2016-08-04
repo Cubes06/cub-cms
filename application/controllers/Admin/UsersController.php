@@ -642,11 +642,22 @@
         public function dashboardAction() {
             $cmsUsersTable = new Application_Model_DbTable_CmsUsers();
             
-            $active = $cmsUsersTable->getActiveUsers();
-            $total = $cmsUsersTable->getTotalUsers();
+            //$filters['status'] = Application_Model_DbTable_CmsUsers::STATUS_ENABLED;
+            //$usersActive = $cmsUsersTable->count($filters);
             
-            $this->view->active =  $active;
-            $this->view->total =  $total;
+            $usersActive = $cmsUsersTable->count(array(
+                'status' => Application_Model_DbTable_CmsUsers::STATUS_ENABLED
+            ));
+            $usersTotal = $cmsUsersTable->count();
+            
+//            $active = $cmsUsersTable->getActiveUsers();
+//            $total = $cmsUsersTable->getTotalUsers();
+            
+            $this->view->active =  $usersActive;
+            $this->view->total =  $usersTotal;
+            
+//            $this->view->active =  $active;
+//            $this->view->total =  $total;
         }
         
         
@@ -676,6 +687,22 @@
             
             echo $active . " / " . $total;
             
+        }
+        
+        public function getstatsAction() {
+            $cmsUsersTable = new Application_Model_DbTable_CmsUsers();
+            
+            $active = $cmsUsersTable->getActiveUsers();
+            $total = $cmsUsersTable->getTotalUsers();
+            
+            $responseJson = new Application_Model_JsonResponse();
+            
+            $responseJson->setPayload(array(
+                'active' => $active,
+                'total' => $total
+            ));
+            
+            $this->getHelper('Json')->sendJson($responseJson);
         }
 
     }
