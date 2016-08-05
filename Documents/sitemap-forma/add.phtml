@@ -1,0 +1,205 @@
+<?php
+
+$this->headTitle('Sitemap - New Page');
+
+$form = $this->form;
+$form->setElementDecorators(array('ViewHelper'));
+
+?>
+<div class="page-header">
+	<h1>Sitemap <small>New Page</small></h1>
+</div>
+<div class="row">
+	<div class="col-lg-12">
+		<?php echo $this->systemMessagesHtml($this->systemMessages);?>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading text-right">
+				<div class="btn-group" role="group" aria-label="...">
+					<a 
+						href="#"
+						class="btn btn-default"
+						><i class="glyphicon glyphicon-arrow-left"></i> Back to pages of parent</a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<form class="form-horizontal" method="post" action="">
+					<input type="hidden" name="task" value="save">
+					<fieldset>
+
+						<!-- Form Name -->
+						<legend>New Page</legend>
+						
+						<!-- Text input-->
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="type">Page Type</label>  
+							<div class="col-md-4">
+								<?php 
+								echo $form->getElement('type')->setAttribs(array(
+									'class' => 'form-control input-md',
+									'id' => 'type',
+									'required' => 'required'
+								));
+								?>
+							</div>
+							<div class="col-md-4">
+								<?php if ($form->getElement('type')->hasErrors()) {?>
+								<div class="has-error">
+									<?php foreach ($form->getElement('type')->getMessages() as $message) {?>
+									<p class="help-block"><?php echo $this->escape($message);?></p>
+									<?php }?>
+								</div>
+								<?php }?>
+							</div>
+						</div>
+
+						<!-- Text input-->
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="short_title">Short Title</label>  
+							<div class="col-md-4">
+								<?php 
+								echo $form->getElement('short_title')->setAttribs(array(
+									'class' => 'form-control input-md',
+									'placeholder' => 'enter page short title to show in navigation',
+									'id' => 'short_title',
+									'required' => 'required'
+								));
+								?>
+								<span class="help-block">min 2 max 255 characters</span>  
+							</div>
+							<div class="col-md-4">
+								<?php if ($form->getElement('short_title')->hasErrors()) {?>
+								<div class="has-error">
+									<?php foreach ($form->getElement('short_title')->getMessages() as $message) {?>
+									<p class="help-block"><?php echo $this->escape($message);?></p>
+									<?php }?>
+								</div>
+								<?php }?>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="url_slug">Url Slug</label>  
+							<div class="col-md-4">
+								<?php 
+								echo $form->getElement('url_slug')->setAttribs(array(
+									'class' => 'form-control input-md',
+									'placeholder' => 'enter page url slug, ex about-us',
+									'id' => 'url_slug',
+									'required' => 'required'
+								));
+								?>
+								<span class="help-block">min 2 max 255 characters</span>  
+							</div>
+							<div class="col-md-4">
+								<?php if ($form->getElement('url_slug')->hasErrors()) {?>
+								<div class="has-error">
+									<?php foreach ($form->getElement('url_slug')->getMessages() as $message) {?>
+									<p class="help-block"><?php echo $this->escape($message);?></p>
+									<?php }?>
+								</div>
+								<?php }?>
+							</div>
+						</div>
+
+						<!-- Text input-->
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="title">Title</label>  
+							<div class="col-md-4">
+								<?php 
+								echo $form->getElement('title')->setAttribs(array(
+									'class' => 'form-control input-md',
+									'placeholder' => 'enter page title',
+									'id' => 'title',
+									'required' => 'required'
+								));
+								?>
+								<span class="help-block">min 2 max 255 characters</span>  
+							</div>
+							<div class="col-md-4">
+								<?php if ($form->getElement('title')->hasErrors()) {?>
+								<div class="has-error">
+									<?php foreach ($form->getElement('title')->getMessages() as $message) {?>
+									<p class="help-block"><?php echo $this->escape($message);?></p>
+									<?php }?>
+								</div>
+								<?php }?>
+							</div>
+						</div>
+
+						<!-- Textarea input-->
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="title">Description</label>  
+							<div class="col-md-4">
+								<?php 
+								echo $form->getElement('description')->setAttribs(array(
+									'class' => 'form-control input-md',
+									'placeholder' => 'enter page description',
+									'id' => 'description',
+									'required' => 'required',
+									'rows' => 12,
+								));
+								?>
+								<span class="help-block">min 3 max 255 characters</span>  
+							</div>
+							<div class="col-md-4">
+								<?php if ($form->getElement('description')->hasErrors()) {?>
+								<div class="has-error">
+									<?php foreach ($form->getElement('description')->getMessages() as $message) {?>
+									<p class="help-block"><?php echo $this->escape($message);?></p>
+									<?php }?>
+								</div>
+								<?php }?>
+							</div>
+						</div>
+						
+						<!-- Textarea input-->
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="title">Page Body</label>  
+							<div class="col-md-4">
+								  
+							</div>
+							<div class="col-md-4">
+								<?php if ($form->getElement('body')->hasErrors()) {?>
+								<div class="has-error">
+									<?php foreach ($form->getElement('body')->getMessages() as $message) {?>
+									<p class="help-block"><?php echo $this->escape($message);?></p>
+									<?php }?>
+								</div>
+								<?php }?>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-2"></div>
+							<div class="col-md-8" style="text-align: center;">
+								<?php 
+								echo $form->getElement('body')->setAttribs(array(
+									'class' => 'form-control input-md',
+									'placeholder' => 'enter page description',
+									'id' => 'body',
+									'required' => 'required'
+								));
+								?>
+							</div>
+							<div class="col-md-2"></div>
+						</div>
+						
+						<!-- Button (Double) -->
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="new_sitemapPage_cancel"></label>
+							<div class="col-md-8 text-right">
+								<a href="<?php echo $this->url(array('controller' => 'admin_sitemapPages', 'action' => 'index'), 'default', true);?>" id="new_sitemapPage_cancel" name="new_sitemapPage_cancel" class="btn btn-default">Cancel</a>
+								<button type="submit" id="new_sitemapPage_submit" name="new_sitemapPage_submit" class="btn btn-success">Save</button>
+							</div>
+						</div>
+
+					</fieldset>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
