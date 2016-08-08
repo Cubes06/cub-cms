@@ -6,7 +6,50 @@
         const STATUS_DISABLED = 0;
         
         protected $_name = 'cms_sitemap_pages';
+        protected static $sitemapPagesMap; //staticki clanovi su dostupni samo u statickim funkcijama
         
+        /**
+         * 
+         * @return array With keys as sitemap page ids and values as assoc. array with keys url and type
+         */
+        public static function getSitemapPagesMap() {
+            //lazy loading -> samo prvim pozivom dovlacimo neke podatke
+            if (!self::$sitemapPagesMap) {
+                $sitemapPagesMap = array();
+            
+                $cmsSitemapPagesDbTable = new self(); //same as: new Application_Model_DbTable_CmsSitemapPages
+
+                $sitemapPages = $cmsSitemapPagesDbTable->search(array(
+                    'orders' => array(
+                        'parent_id' => 'ASC',
+                        'order_number' => 'ASC'
+                    )
+                ));
+
+                foreach ($sitemapPages as $sitemapPage) {
+                    $type = $sitemapPage['type'];
+                    $url = $sitemapPage['url_slug'];
+
+                    if (isset($sitemapPagesMap[$sitemapPage['parent_id']])) {
+                        $url = $sitemapPagesMap[$sitemapPage['parent_id']]['url'] . '/' .$url;
+                    }
+                    
+                    $sitemapPagesMap[$sitemapPage['id']] = array(
+                        'url' => $url,
+                        'type' => $type
+                    );
+                }
+
+                
+
+                self::$sitemapPagesMap = $sitemapPagesMap;
+            }
+            
+            return self::$sitemapPagesMap;
+            
+            
+            
+        }
         
         
         /**
@@ -46,7 +89,7 @@
             foreach ($sortedIds as $orderNumber => $id) {
                 $this->update(
                         array('order_number' => $orderNumber + 1), 
-                        'id = ' . $id . ' AND ' . 'parent_id = ' 
+                        'id = ' . $id 
                 );
             }
             
@@ -99,6 +142,7 @@
             ));
             
             if (count($children) > 0) {
+                //delete children pages recursively
                 foreach ($children as $child) {
                     $this->deleteSitemapPage($child['id']);
                 }

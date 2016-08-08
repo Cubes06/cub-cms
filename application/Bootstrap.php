@@ -5,6 +5,9 @@
         //ovo je konfiguracija aplikacije u procesu bootstrap-inga
         
         protected function _initRouter() {  //bitno je da pocinje sa donjom crtom i init (_initPaNesto)
+            //prvo mora da se ucita konfiguracija za bazu
+            //ensure that database is configured
+            $this->bootstrap('db');
             
             //centralna klasa
             $router = Zend_Controller_Front::getInstance()->getRouter();
@@ -51,6 +54,25 @@
                 )
             );
             
+            $sitemapPagesMap = Application_Model_DbTable_CmsSitemapPages::getSitemapPagesMap();
+            //print_r($sitemapPagesMap);die();
+            foreach ($sitemapPagesMap as $sitemapPageId => $sitemapPageMap) {
+                
+                if ($sitemapPageMap['type'] == 'StaticPage') {
+                    $router->addRoute( 
+                        'static-page-route-' . $sitemapPageId, 
+                        new Zend_Controller_Router_Route_Static (
+                                $sitemapPageMap['url'],
+                                array(
+                                    'controller' => 'staticpage',
+                                    'action' => 'index',
+                                    'sitemap_page_id' => $sitemapPageId
+                                )
+                        )
+                    );
+                }
+                
+            }
             
             
         }//endf

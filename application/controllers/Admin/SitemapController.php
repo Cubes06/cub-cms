@@ -424,6 +424,7 @@
                 // request is not post or task is not saveOrder
                 // redirect to index page
                 $redirector = $this->getHelper('Redirector');
+                
                 $redirector->setExit(true)
                         ->gotoRoute(array(
                             'controller' => 'admin_sitemap',
@@ -436,7 +437,8 @@
 
 
             try {
-
+                
+                
                 $sortedIds = $request->getPost('sorted_ids');
 
                 if (empty($sortedIds)) {
@@ -451,8 +453,10 @@
 
 
                 $cmsSitemapTable = new Application_Model_DbTable_CmsSitemapPages();
-
-                $cmsSitemapTable->updateOrderOfSitemap($sortedIds);
+                
+                $sitemapPage = $cmsSitemapTable->getSitemapPageById($sortedIds[0]);
+                
+                $cmsSitemapTable->updateOrderOfSitemapPages($sortedIds);
 
 
                 $flashMessenger->addMessage('Order is successfully saved', 'success');
@@ -461,9 +465,10 @@
                         ->gotoRoute(array(
                             'controller' => 'admin_sitemap',
                             'action' => 'index',
-                            'parent_id' => $sitemap['parent_id']
+                            'parent_id' => $sitemapPage['parent_id']
                                 ), 'default', true);
-            } catch (Application_Model_Exception_InvalidInput $ex) {
+            }
+            catch (Application_Model_Exception_InvalidInput $ex) {
                 $flashMessenger->addMessage($ex->getMessage(), 'errors');
                 $redirector = $this->getHelper('Redirector');
                 $redirector->setExit(true)
