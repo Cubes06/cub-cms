@@ -26,6 +26,8 @@
             $type->addMultiOption('', '-- Select Sitemap Page Type --')
                     ->addMultiOptions(array(
                         'StaticPage' => 'Static Page',
+                        'AboutAsPage' => 'About Us Page',
+                        'ContactPage' => 'Contact Page',
                         
                     ))->setRequired(true);
             $this->addElement($type);

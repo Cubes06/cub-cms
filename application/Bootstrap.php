@@ -72,6 +72,34 @@
                     );
                 }
                 
+                if ($sitemapPageMap['type'] == 'AboutUsPage') {
+                    $router->addRoute( 
+                        'static-page-route-' . $sitemapPageId, 
+                        new Zend_Controller_Router_Route_Static (
+                                $sitemapPageMap['url'],
+                                array(
+                                    'controller' => 'aboutus',
+                                    'action' => 'index',
+                                    'sitemap_page_id' => $sitemapPageId
+                                )
+                        )
+                    );
+                }
+                
+                if ($sitemapPageMap['type'] == 'ContactPage') {
+                    $router->addRoute( 
+                        'static-page-route-' . $sitemapPageId, 
+                        new Zend_Controller_Router_Route_Static (
+                                $sitemapPageMap['url'],
+                                array(
+                                    'controller' => 'contact',
+                                    'action' => 'index',
+                                    'sitemap_page_id' => $sitemapPageId
+                                )
+                        )
+                    );
+                }
+                
             }
             
             
