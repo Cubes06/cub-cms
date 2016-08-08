@@ -72,7 +72,8 @@
                                         <a href="<?php echo $this->baseUrl('/aboutus'); ?>">About Us</a>
                                     </li>
                                     <li>
-                                        <a href="<?php echo $this->baseUrl('/contact'); ?>">Contact</a>
+                                        <a href="<?php //echo $this->baseUrl('/contact'); 
+                                                         echo $this->url(array(), 'contact-us-route', true); ?>">Contact</a>
                                     </li>
                                     <li>
                                         <a href="<?php echo $this->baseUrl('/admin_session'); ?>"><i class="fa fa-user"></i> Login</a>

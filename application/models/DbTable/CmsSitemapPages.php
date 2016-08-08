@@ -46,7 +46,7 @@
             foreach ($sortedIds as $orderNumber => $id) {
                 $this->update(
                         array('order_number' => $orderNumber + 1), 
-                        'id = ' . $id
+                        'id = ' . $id . ' AND ' . 'parent_id = ' 
                 );
             }
             
@@ -91,6 +91,19 @@
 	                      
             //sitemapPage who is going to be deleted
             $sitemapPage = $this->getSitemapPageById($id);
+            
+            $children = $this->search(array(
+                'filters' => array(
+                    'parent_id' => $id
+                )
+            ));
+            
+            if (count($children) > 0) {
+                foreach ($children as $child) {
+                    $this->deleteSitemapPage($child['id']);
+                }
+            }
+            
             
             //this updates order_numbers of all sitemapPages whose order_numbers are greater than the current order_numer
             $this->update(

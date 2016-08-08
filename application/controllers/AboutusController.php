@@ -60,7 +60,7 @@
                            ->gotoRoute(
                                     array(
                                         'id' => $member['id'],
-                                        'member_slug' => $member[first_name] . '-' . $member['last_name']
+                                        'member_slug' => $member['first_name'] . '-' . $member['last_name']
                                     ), 
                                    'member-route', 
                                    true

@@ -1,14 +1,21 @@
 <?php
-$this->headTitle('Contact');
+    $this->headTitle('Contact');
 ?>
+
+
 <div id="highlighted">
     <div class="container">
         <div class="header">
             <h2 class="page-title">
-                <span>Contact</span> 
-                <small>No project too big or small, get in touch!</small>
+                <br>
+                <span>Ask member: <?php echo $this->member['first_name'] . ' ' . $this->member['last_name']; ?></span> 
+                
             </h2>
+            <a href="#" class="thumbnail"  >
+                <img src="<?php echo $this->memberImgUrl($this->member); ?>">
+            </a>
         </div>
+        
     </div>
 </div>
 <div id="content">
@@ -16,6 +23,9 @@ $this->headTitle('Contact');
         <div class="block">
             <div class="row">
                 <div class="col-sm-6">
+                    <h3 class="block-title sub-title">
+                        <span>Contact via message</span>
+                    </h3>
                     <form action="#" id="contact-form">
                         <div class="form-group">
                             <input type="text" placeholder="Name" class="form-control">
@@ -36,9 +46,14 @@ $this->headTitle('Contact');
                     <p><abbr title="Phone">P</abbr>: 011/3210-112</p>
                     <p><abbr title="Fax">F</abbr>: 011/3210-112</p>
                     <p><abbr title="Email">E</abbr>: office@cubes.rs</p>
-                    <p><abbr title="Address">A</abbr>: Bulevar Milutina MilankoviÄ‡a 181, 11000 Beograd</p>
-                    <div id="map" style="width:100%; height: 300px"></div>
+                    <p><abbr title="Address">A</abbr>: Bulevar Milutina Milankovića 181, 11000 Beograd</p>
+                    
+<!--                    <a href="https://maps.google.co.uk/maps?q=London&amp;ie=UTF8&amp;hq=&amp;hnear=London,+United+Kingdom&amp;gl=uk&amp;t=m&amp;ll=51.510238,-0.127029&amp;spn=0.042735,0.102654&amp;z=12&amp;">
+                        <img class="img-polaroid" alt="Location map" src="/img/misc/map.png">
+                    </a>-->
 
+                    <div id="map" style="width:100%; height: 300px"></div>
+                    
                     <script>
                         var map;
                         
@@ -52,6 +67,7 @@ $this->headTitle('Contact');
                             
                             marker = new google.maps.Marker({
                                 position: myLatLng,
+                                dragable: true,
                                 map: map,
                                 animation: google.maps.Animation.DROP,
                                 title: 'Cubes School'
@@ -74,6 +90,7 @@ $this->headTitle('Contact');
                             async defer>
                     </script>
                 </div>
+               
             </div>
         </div>
     </div>
