@@ -1,0 +1,74 @@
+<?php
+    $this->headTitle('Paragvaj -> index');
+    $this->headMeta()->appendName('name', 'viewport');
+    $this->headMeta()->appendName('content', 'initial-scale=1.0, user-scalable=no');
+    //$this->headMeta()->appendName("name=/"viewport/" content=/"initial-scale=1.0, user-scalable=no/"");
+?>
+<div id="highlighted">
+    <div class="container">
+        <div class="header">
+            <h2 class="page-title">
+                <span>Paragvaj</span> 
+                <small>indexAction</small>
+            </h2>
+        </div>
+    </div>
+</div>
+<div id="content">
+    <div class="container">
+        <div class="block">
+            <div class="row">
+                
+                <div class="col-sm-6">
+                    <h3 class="block-title sub-title">
+                        <span>Other Ways To Get In Touch</span>
+                    </h3>
+                    <p><abbr title="Address">A</abbr>: Bulevar Milutina Milankovića 181, 11000 Beograd</p>
+<!--                    <div id="map" style="width:100%; height: 300px"></div>-->
+
+                    <form>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="address" id="address" placeholder="Goce Delceva 57, Beograd"/>
+                            
+                        </div>
+                        <button id="findMyPostcode" class="btn btn-success btn-lg">Find My Postcodes</button>
+                    </form>
+                    
+                    <div id="success" class="alert alert-success "></div>
+                    <div id="fail" class="alert alert-danger"></div>
+                    
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+                    
+                    
+                    <script> 
+                        $('#findMyPostcode').click(function(event) {
+                            $.ajax({
+                                type: "GET",
+                                url: "https://maps.googleapis.com/maps/api/geocode/xml?address="+encodeURIComponent($('#address').val())+"&key=AIzaSyCl63DjLjiuUgfMShPAK0Jy5peunCa9NZ4",
+                                dataType: "xml",
+                                success: processXML
+                            });
+                        });
+                        //alert($('#address').val().text());
+                       
+                        function processXML(xml) {
+                            
+                            $(xml).find("address_component").each(function() {
+                                
+                                if ($(this).find('long_name')) {
+                                    $('#success').html($(this).find('long_name').text());
+                                }
+                                
+//                                if ($(this).find("type").text() == "long_name") {
+//                                    alert($(this).find("long_name").text());
+//                                }
+                            });
+                        }
+                    </script>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

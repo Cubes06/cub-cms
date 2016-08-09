@@ -1,0 +1,176 @@
+
+
+
+<style type="text/css">
+    .alert {
+        margin-top:20px;
+        display:none;
+    }
+
+</style>  
+
+
+    <div class="wrapper" id="content-below" >
+        <div class="container" style="height:75vh;">
+
+            <div class="row">
+
+                <div class="col-md-6 col-md-offset-3" >
+
+                        <h1>Postcode Finder</h1>
+
+                        <p class="lead">Enter your address to find out the post code</p>
+
+                        <p>Bulevar Milutina Milankovića 181, 11000 Beograd</p>
+                        <form>
+                            <div class="form-group">
+                                <input type="text" name="address" id="address" class="form-control" placeholder="Your address...." />
+                            </div>
+                            <input id="findmyPostcode" type="submit" name="submit" class="btn btn-success submit" value="Show My Postcode" />
+                        </form>
+
+                        <div id="success" class="alert alert-success">Success!</div>
+                        <div id="fail" class="alert alert-danger">Could not find post code for that address,please try again.</div>
+                        <div id="fail2" class="alert alert-danger">Could not find the server.</div>
+                        
+                        <div id="map" style="width:100%; height: 300px"></div>
+
+                        
+
+                        
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+
+<script>
+    var latitude = 0;
+                var longitude = 0;
+                
+    
+
+    var map;
+    var marker;            
+            $("#findmyPostcode").click(function (event) {
+                
+                var result = 0;
+
+                $(".alert").hide();
+
+                event.preventDefault();
+
+                $(".alert").hide();
+                $.ajax({
+                    type: "GET",
+                    url: "https://maps.googleapis.com/maps/api/geocode/xml?address="+encodeURIComponent($('#address').val())+"&key=AIzaSyCl63DjLjiuUgfMShPAK0Jy5peunCa9NZ4",
+                    dataType: "xml",
+                    success: processXML,
+                    error: error
+
+                });
+
+                function error() {
+                    $("#fail2").fadeIn();
+                }
+
+                function processXML(xml) {
+
+//                    $(xml).find("address_component").each(function () {
+//                        if ($(this).find("type").text() == "postal_code") {
+//                            $("#success").html("The postcode you need is " + $(this).find('long_name').text()).fadeIn();
+//                            result = 1;
+//                        }
+//                    });
+                    
+                    $(xml).find("location").each(function () {
+                        latitude = $(this).find("lat").text();
+                        //alert(lat);
+                        longitude = $(this).find("lng").text();
+                        lng = $(this).find("lng").text();
+                        $("#success").html("Lat: " + $(this).find("lat").text() + " Lng: " + $(this).find("lng").text()).fadeIn();
+                        result = 1;
+                        
+                        var coordinates = new google.maps.LatLng(latitude, longitude);
+                        map.setCenter(coordinates);
+                        
+                        marker.setPosition(coordinates);
+//                        if ($(this).find("lat")) {
+//                            $("#success").html("Nasao sam " + $(this).find("lat").text()).fadeIn();
+//                            result = 1;
+//                        }
+//                        if ($(this).find("lng")) {
+//                            $("#success").html("Nasao sam " + $(this).find("lng").text()).fadeIn();
+//                            result = 1;
+//                        }
+            });
+
+//                    $(xml).find("address_component").each(function() {
+//                        if ($(this).find('long_name')) {
+//                            $('#success').html($(this).find('long_name').text()).fadeIn();
+//                            result = 1;
+//                        }
+//                    });
+
+            if (result == 0) {
+                $("#fail").fadeIn();
+            }
+
+        }
+    });
+
+
+
+    
+    function initMap() {
+        var myLatLng = {lat: 44.831213, lng: 20.410245};
+        
+        if (latitude && longitude) {
+            myLatLng = {
+                lat: latitude, 
+                lng: longitude
+            };
+        }
+//        var myLatLng = {
+//            lat: latitude, 
+//            lng: longitude
+//        };
+
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: myLatLng,
+            zoom: 15
+        });
+
+        marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map,
+            animation: google.maps.Animation.DROP,
+            title: 'Cubes School'
+        });
+        
+
+        marker.addListener('click', toggleBounce);
+    }
+
+    function toggleBounce() {
+        if (marker.getAnimation() !== null) {
+            marker.setAnimation(null);
+        } else {
+            marker.setAnimation(google.maps.Animation.BOUNCE);
+        }
+    }
+</script>
+                        
+                        
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCl63DjLjiuUgfMShPAK0Jy5peunCa9NZ4&callback=initMap"
+        async defer>
+</script>
