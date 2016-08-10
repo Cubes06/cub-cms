@@ -100,7 +100,7 @@
                                 <a href=" <?php echo $this->url(array('controller' => 'admin_members'), 'default', 'true'); ?> "><i class="fa fa-table fa-fw"></i> Members</a>
                             </li>
                             <li>
-                                <a href=" <?php echo $this->url(array('controller' => 'admin_services'), 'default', 'true'); ?> "><i class="fa fa-briefcase"></i>  Services</a>
+                                <a href=" <?php echo $this->url(array('controller' => 'admin_services'), 'default', 'true'); ?> "><i class="fa fa-briefcase"></i> Services</a>
                             </li>
                             <li>
                                 <a href=" <?php echo $this->url(array('controller' => 'admin_users'), 'default', 'true'); ?> "><i class="fa fa-user fa-fw"></i> Users</a>
@@ -110,6 +110,9 @@
                             </li>
                             <li>
                                 <a href=" <?php echo $this->url(array('controller' => 'admin_sitemap'), 'default', 'true'); ?> "><i class="fa fa-sitemap fa-fw"></i> Sitemap</a>
+                            </li>
+                            <li>
+                                <a href=" <?php echo $this->url(array('controller' => 'admin_filemanager'), 'default', 'true'); ?> "><i class="fa fa-files-o fa-fw"></i> Filemanager</a>
                             </li>
                         </ul>
                     </div>
@@ -132,16 +135,16 @@
         <!-- /#wrapper -->
 
         <!-- jQuery -->
-        <script src=" <?php echo $this->baseUrl('/admin/bower_components/jquery/dist/jquery.min.js') ?> "></script>
+        <script src="<?php echo $this->baseUrl('/admin/bower_components/jquery/dist/jquery.min.js') ?>"></script>
 
         <!-- Bootstrap Core JavaScript -->
-        <script src=" <?php echo $this->baseUrl('/admin/bower_components/bootstrap/dist/js/bootstrap.min.js') ?> "></script>
+        <script src="<?php echo $this->baseUrl('/admin/bower_components/bootstrap/dist/js/bootstrap.min.js') ?>"></script>
 
         <!-- Metis Menu Plugin JavaScript -->
-        <script src=" <?php echo $this->baseUrl('/admin/bower_components/metisMenu/dist/metisMenu.min.js') ?> "></script>
+        <script src="<?php echo $this->baseUrl('/admin/bower_components/metisMenu/dist/metisMenu.min.js') ?>"></script>
 
         <!-- Custom Theme JavaScript -->
-        <script src=" <?php echo $this->baseUrl('/admin/dist/js/sb-admin-2.js') ?> "></script>
+        <script src="<?php echo $this->baseUrl('/admin/dist/js/sb-admin-2.js') ?>"></script>
         
         <?php echo $this->inlineScript(); ?>
         
