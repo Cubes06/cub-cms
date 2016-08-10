@@ -1,5 +1,8 @@
 <?php
-$this->headTitle('Contact');
+    $sitemapPage = $this->sitemapPage;
+    
+    $this->headTitle($sitemapPage['title']);
+    $this->headMeta()->appendName('description', $sitemapPage['description']);
 ?>
 <div id="highlighted">
     <div class="container">
@@ -14,6 +17,7 @@ $this->headTitle('Contact');
 <div id="content">
     <div class="container">
         <div class="block">
+            <?php echo $sitemapPage['body']; ?>
             <div class="row">
                 <div class="col-sm-6">
                     <form action="#" id="contact-form">

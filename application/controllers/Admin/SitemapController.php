@@ -167,6 +167,7 @@
             $request = $this->getRequest();
             
             $id = (int) $request->getParam('id'); //(int) pretvara slova u nule
+            $parentId = (int) $request->getParam('parent_id', 0);
             
             if ($id <= 0) {
                 throw new Zend_Controller_Router_Exception('Invalid sitemapPage id: ' . $id, 404); // ovako prekidamo izvrsavanje programa i prikazujemo 'page not found'
@@ -217,7 +218,7 @@
                                             array(
                                                 'controller' => 'admin_sitemap',
                                                 'action' => 'index',
-                                                'id' => $sitemapPage['parent_id']
+                                                'parent_id' => $sitemapPage['parent_id']
                                             ), 
                                            'default', 
                                            true
@@ -237,7 +238,7 @@
             $this->view->sitemapPageBreadcrumbs = $sitemapPageBreadcrumbs;
             $this->view->systemMessages = $systemMessages;
             $this->view->form = $form;
-            
+            $this->view->parentId = $parentId;
             $this->view->sitemapPage = $sitemapPage;
             
         }

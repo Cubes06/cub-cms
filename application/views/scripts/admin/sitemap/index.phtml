@@ -103,7 +103,7 @@
                                                     target="_blank"
                                                     type="button" class="btn btn-default" title="preview"><i class="glyphicon glyphicon-eye-open"></i></a>
                                                 <a 
-                                                    href="<?php echo $this->url(array('controller' => 'admin_sitemap', 'action' => 'edit', 'id' => $sitemapPage['id']), 'default', true); ?>"
+                                                    href="<?php echo $this->url(array('controller' => 'admin_sitemap', 'action' => 'edit', 'id' => $sitemapPage['id'], 'parent_id' => $sitemapPage['parent_id']), 'default', true); ?>"
                                                     type="button" class="btn btn-default" title="edit"><i class="glyphicon glyphicon-pencil"></i></a>
                                                 
                                                 <button data-sitemap-page-id="<?php echo $this->escape($sitemapPage['id']); ?>" data-action="enable" type="button" class="btn btn-default" title="enable"><i class="glyphicon glyphicon-ok"></i></button>
@@ -137,7 +137,7 @@
                                                     target="_blank"
                                                     type="button" class="btn btn-default" title="preview"><i class="glyphicon glyphicon-eye-open"></i></a>
                                                 <a 
-                                                    href="<?php echo $this->url(array('controller' => 'admin_sitemap', 'action' => 'edit', 'id' => $sitemapPage['id']), 'default', true); ?>"
+                                                    href="<?php echo $this->url(array('controller' => 'admin_sitemap', 'action' => 'edit', 'id' => $sitemapPage['id'], 'parent_id' => $sitemapPage['parent_id']), 'default', true); ?>"
                                                     type="button" class="btn btn-default" title="edit"><i class="glyphicon glyphicon-pencil"></i></a>
                                                 <button data-sitemap-page-id="<?php echo $this->escape($sitemapPage['id']); ?>" data-action="disable" type="button" class="btn btn-default" title="disable"><i class="glyphicon glyphicon-remove"></i></button>
                                                 <button data-sitemap-page-id="<?php echo $this->escape($sitemapPage['id']); ?>" data-action="delete" type="button" class="btn btn-default" title="delete"><i class="glyphicon glyphicon-trash"></i></button>

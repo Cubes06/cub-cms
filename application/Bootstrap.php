@@ -72,6 +72,7 @@
                     );
                 }
                 
+                
                 if ($sitemapPageMap['type'] == 'AboutUsPage') {
                     $router->addRoute( 
                         'static-page-route-' . $sitemapPageId, 

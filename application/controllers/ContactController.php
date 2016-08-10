@@ -7,7 +7,30 @@
         }
 
         public function indexAction() {
-            // action body
+            $request = $this->getRequest();
+            
+            $sitemapPageId = (int) $request->getParam('sitemap_page_id');
+            
+            if ($sitemapPageId <= 0) {
+                $sitemapPageId = 34;
+                //throw new Zend_Controller_Router_Exception('Invalid sitemap page id: ' . $sitemapPageId, 404);
+            }
+            
+            $cmsSitemapPageDbTable = new Application_Model_DbTable_CmsSitemapPages();
+            $sitemapPage = $cmsSitemapPageDbTable->getSitemapPageById($sitemapPageId);
+            
+            if (!$sitemapPage) {
+                throw new Zend_Controller_Router_Exception('No sitemap page is found for id: ' . $sitemapPageId, 404);
+            }
+            
+            $this->view->sitemapPage = $sitemapPage;
+            
+            if ( //check if user is not logged in then preview is not available for disabled pages
+                    ($sitemapPage['status'] == Application_Model_DbTable_CmsSitemapPages::STATUS_DISABLED)
+                    && !Zend_Auth::getInstance()->hasIdentity()
+            ) {
+                throw new Zend_Controller_Router_Exception('Sitemap page is disabled');
+            }
         }
         
         public function askmemberAction() {
