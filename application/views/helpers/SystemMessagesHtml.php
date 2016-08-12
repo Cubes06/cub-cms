@@ -4,6 +4,7 @@
         
         public function systemMessagesHtml($systemMessages) {            
             
+            //resetovanje placeholdera
             $this->view->placeholder('systemMessagesHtml')->exchangeArray(array());
             
             if (!empty($systemMessages['success'])) {

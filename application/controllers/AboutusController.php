@@ -13,7 +13,6 @@
             $sitemapPageId = (int) $request->getParam('sitemap_page_id');
             
             if ($sitemapPageId <= 0) {
-                $sitemapPageId = 34;
                 //throw new Zend_Controller_Router_Exception('Invalid sitemap page id: ' . $sitemapPageId, 404);
             }
             

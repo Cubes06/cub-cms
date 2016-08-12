@@ -63,6 +63,9 @@
                 throw new Zend_Controller_Router_Exception('Invalid parent id for sitemap pages', 404);
             }
             
+            $parentType = '';
+            
+            
             $cmsSitemapPagesDbTable = new Application_Model_DbTable_CmsSitemapPages();
             
             if ($parentId != 0) {
@@ -71,6 +74,8 @@
                 if (!$parentSitemapPage) {
                     throw new Zend_Controller_Router_Exception('No sitemap page is found for id: '. $parentId, 404);
                 }
+                
+                $parentType = $parentSitemapPage['type'];
             }
             
             $flashMessenger = $this->getHelper('FlashMessenger');  // za prenosenje sistemskih poruka
@@ -80,7 +85,7 @@
                 'errors' => $flashMessenger->getMessages('errors'),
             );
 
-            $form = new Application_Form_Admin_SitemapPageAdd($parentId);
+            $form = new Application_Form_Admin_SitemapPageAdd($parentId, $parentType);
             //set parent_id for new page
             //
             
@@ -180,6 +185,12 @@
                 throw new Zend_Controller_Router_Exception('No sitemapPage is found with id: ' . $id, 404);
             }
             
+            $parentType = '';
+            if ($sitemapPage['parent_id'] != 0) {
+                $parentSitemapPage = $cmsSitemapPagesTable->getSitemapPageById($sitemapPage['parent_id']);
+                $parentType = $parentSitemapPage['type'];
+            }
+            
             $flashMessenger = $this->getHelper('FlashMessenger');  
 
             $systemMessages = array(
@@ -187,7 +198,7 @@
                 'errors' => $flashMessenger->getMessages('errors'),
             );
 
-            $form = new Application_Form_Admin_SitemapPageEdit($sitemapPage['id'], $sitemapPage['parent_id']);
+            $form = new Application_Form_Admin_SitemapPageEdit($sitemapPage['id'], $sitemapPage['parent_id'], $parentType);
             
             $form->populate($sitemapPage);
             

@@ -9,31 +9,61 @@
             //ensure that database is configured
             $this->bootstrap('db');
             
+            //ovde definisemo koji sve tipovi stranica postoje
+            $sitemapPageTypes = array(
+                'StaticPage' => array(
+                    'title' => 'Static Page',
+                    'subtypes' => array(
+                        // 0 means unlimited number
+                        'StaticPage' => 0
+                    )
+                ),
+                'AboutUsPage' => array(
+                    'title' => 'About Us Page',
+                    'subtypes' => array(
+                        
+                    )
+                ),
+                'ServicesPage' => array(
+                    'title' => 'Services Page',
+                    'subtypes' => array(
+                        
+                    )
+                ),
+                'ContactPage' => array(
+                    'title' => 'Contact Page',
+                    'subtypes' => array(
+                        
+                    )
+                ),
+                'DogsPage' => array(
+                    'title' => 'Dogs Page',
+                    'subtypes' => array(
+                        'DogsPage' => 0
+                    )
+                )
+            );
+            
+            //ovde definisemo koje stranice mogu da se nalaze u root-u i koliko puta
+            $rootSitemapPageTypes = array(
+                'StaticPage' => 0,
+                'AboutUsPage' => 1,
+                'ServicesPage' => 1,
+                'ContactPage' => 1,
+                'DogsPage' => 0,
+            );
+            
+            //ovo je neke vreca...
+            Zend_Registry::set('sitemapPageTypes', $sitemapPageTypes);
+            Zend_Registry::set('rootSitemapPageTypes', $rootSitemapPageTypes);
+            
+            
             //centralna klasa
             $router = Zend_Controller_Front::getInstance()->getRouter();
             
             $router instanceof Zend_Controller_Router_Rewrite;
             //dodajemo rute, poslednja ruta ima veci prioritet.
             $router->addRoute( 
-                'about-us-route', 
-                new Zend_Controller_Router_Route_Static (
-                        'about-us',
-                        array(
-                            'controller' => 'aboutus',
-                            'action' => 'index'
-                        )
-                )
-            )->addRoute(
-                'member-route', 
-                new Zend_Controller_Router_Route (
-                        'about-us/member/:id/:member_slug',
-                        array(
-                            'controller' => 'aboutus',
-                            'action' => 'member',
-                            'member_slug' => ''
-                        )
-                )
-            )->addRoute( 
                 'contact-us-route', 
                 new Zend_Controller_Router_Route_Static (
                         'contact-us',
@@ -85,6 +115,18 @@
                                 )
                         )
                     );
+                    
+                    $router->addRoute(
+                        'member-route', 
+                        new Zend_Controller_Router_Route (
+                                $sitemapPageMap['url'] . '/member/:id/:member_slug',
+                                array(
+                                    'controller' => 'aboutus',
+                                    'action' => 'member',
+                                    'member_slug' => ''
+                                )
+                        )
+                    );
                 }
                 
                 if ($sitemapPageMap['type'] == 'ContactPage') {
@@ -94,6 +136,20 @@
                                 $sitemapPageMap['url'],
                                 array(
                                     'controller' => 'contact',
+                                    'action' => 'index',
+                                    'sitemap_page_id' => $sitemapPageId
+                                )
+                        )
+                    );
+                }
+                
+                if ($sitemapPageMap['type'] == 'DogsPage') {
+                    $router->addRoute( 
+                        'static-page-route-' . $sitemapPageId, 
+                        new Zend_Controller_Router_Route_Static (
+                                $sitemapPageMap['url'],
+                                array(
+                                    'controller' => 'dogs',
                                     'action' => 'index',
                                     'sitemap_page_id' => $sitemapPageId
                                 )

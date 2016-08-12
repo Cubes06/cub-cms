@@ -47,9 +47,9 @@
             
             return self::$sitemapPagesMap;
             
-            
-            
         }
+        
+        
         
         
         /**
@@ -402,6 +402,45 @@
             
             return $sitemapPagesBreadcrumbs;
         }
+        
+        /**
+         * Returns count by type, examples:
+         * array (
+         *  'StaticPage' => 3,
+         *  'AboutPage' =>  1',
+         *  'ContactPage' => 1,
+         *  ...
+         * @param type $filters
+         * @return array Count by type
+         */
+        public function countByTypes($filters = array()) {
+            
+            $select = $this->select();
+
+            $this->processFilters($filters, $select);
+
+            // reset previously set columns for resultset
+            $select->reset('columns');
+            // set one column/field to fetch and it is COUNT function
+            $select->from($this->_name, array(
+                'type',
+                'COUNT(*) as total_by_type'
+            ));
+            $select->group('type');
+            
+            $rows = $this->fetchAll($select);
+            
+            $countByTypes = array();
+            
+            foreach ($rows as $row) {
+                $countByTypes[$row['type']] = $row['total_by_type'];
+            }
+            
+            return $countByTypes;
+            
+        }
+        
+        
         
     } //end of class: Application_Model_DbTable_CmsSitemapPages
     

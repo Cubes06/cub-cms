@@ -1,0 +1,54 @@
+<?php
+    $sitemapPage = $this->sitemapPage;
+    
+    $this->headTitle($sitemapPage['title']);
+    $this->headMeta()->appendName('description', $sitemapPage['description']);
+?>
+<div id="highlighted">
+    <div class="container">
+        <div class="header">
+            <h2 class="page-title">
+                <span>Contact</span> 
+                <small>No project too big or small, get in touch!</small>
+            </h2>
+        </div>
+    </div>
+</div>
+<div id="content">
+    <div class="container">
+        <div class="block">
+            <div class="row">
+                <div class="col-md-4 sidebar sidebar-left">
+                    <div class="inner">
+                        <div class="block">
+                            <h3 class="block-title sub-title">
+                                <span>Dogs Menu</span>
+                            </h3>
+                            <ul class="nav nav-list secondary-nav">
+                                <li>
+                                    <a href=""><i class="fa fa-chevron-right"></i> Treeing Tennessee Brindle  </a>
+                                </li>
+                                <li>
+                                    <a href="#team"><i class="fa fa-chevron-right"></i> Pekingese</a>
+                                </li>
+                                <li>
+                                    <a href="#testimonials"><i class="fa fa-chevron-right"></i> Labrador Retriever</a>
+                                </li>
+                            </ul>
+                        </div>
+
+
+                    </div>
+                </div>
+                    
+                
+                <div class="col-sm-8">
+                    <div class="block">
+                        <?php echo $sitemapPage['body']; ?>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

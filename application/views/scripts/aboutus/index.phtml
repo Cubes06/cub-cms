@@ -1,6 +1,6 @@
 <?php
     $sitemapPage = $this->sitemapPage;
-    
+
     $this->headTitle($sitemapPage['title']);
     $this->headMeta()->appendName('description', $sitemapPage['description']);
 ?>
@@ -21,10 +21,13 @@
             <!-- About -->
             <div class="row">
                 <div class="col-md-8">
+
                     <!-- About company -->
                     <div class="block">
                         <?php echo $sitemapPage['body']; ?>
                     </div>
+
+
                     <!-- The team -->
                     <div class="block margin-top-large">
                         <h3 id="team" class="block-title">
@@ -42,7 +45,7 @@
                                 </div>
                                 <div class="row">
                                     <ul class="thumbnails list-unstyled team">
-                                    <?php
+                                        <?php
                                     }
                                     $i++;
                                     $memberImgUrl = $this->memberImgUrl($member);
@@ -62,7 +65,7 @@
                                                 ><?php echo $this->escape($member["first_name"]); ?></a>
                                         </h4>
                                     </li>
-    <?php } ?>
+                                <?php } ?>
 
                             </ul>
                         </div>
