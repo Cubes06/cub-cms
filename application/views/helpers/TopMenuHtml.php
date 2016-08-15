@@ -39,7 +39,7 @@
                         ?>
                             <li<?php echo !empty($secondLevelSitemapPages) ? ' class="dropdown" ' : '' ?>>
                             
-                            <a href="<?php echo $this->view->sitemapPageUrl($sitemapPage['id']); ?>" class="dropdown-toggle" id="menu-item-<?php echo $sitemapPage['id'];?>" data-toggle="dropdown"> <?php echo $this->view->escape($sitemapPage['short_title']); ?> </a>
+                            <a href="<?php echo $this->view->sitemapPageUrl($sitemapPage['id']); ?>" class="dropdown-toggle " id="menu-item-<?php echo $sitemapPage['id'];?>" data-toggle="dropdown"> <?php echo $this->view->escape($sitemapPage['short_title']); ?> </a>
                             
                                <?php 
                                 if (!empty($secondLevelSitemapPages)) { ?>

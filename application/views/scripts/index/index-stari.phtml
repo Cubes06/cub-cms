@@ -1,0 +1,47 @@
+<?php
+    $this->headTitle('Clients');
+?>
+
+<div id="content">
+    <div class="container">
+
+    </div>
+</div>
+<div class="wrapper" id="content-below">
+    <div class="container">
+        <div class="clients block">
+            <h3 class="block-title">
+                <span>Clients</span>
+            </h3>
+            <!--Recommended image sizing: 170px & 70px-->
+            <ul class="thumbnails list-unstyled row">
+                
+                
+                <?php
+                    $i = 0;
+                    foreach ($this->clients as $client) {
+                        if ($client['status'] == Application_Model_DbTable_CmsClients::STATUS_ENABLED) {
+                            if ($i % 4 === 0) { // kraj reda i prelazak u novi ?>  
+                                    </ul>
+                                </div>
+
+                                <div class="clients block">
+                                    <ul class="thumbnails list-unstyled row">
+                            <?php }
+                            $i++;
+                            $clientImgUrl = $this->clientImgUrl($client);
+                            ?>
+                            <li class="col-sm-3">
+                                <a title="" data-original-title=" <?php echo $this->escape($client['name']); ?> " data-placement="top" class="_tooltip" href="#">
+                                    <img alt=" <?php echo $this->escape($client['name']); ?> " class="img-rounded" src=" <?php echo $this->escape($clientImgUrl); ?> ">
+                                </a>
+                            </li>
+                        <?php } ?>
+                <?php } ?>
+                
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>

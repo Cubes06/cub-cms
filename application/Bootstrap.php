@@ -53,7 +53,7 @@
                 'DogsPage' => 0,
             );
             
-            //ovo je neke vreca...
+            //preporucljivoje setovati samo ovde u bootstrap.php fajlu
             Zend_Registry::set('sitemapPageTypes', $sitemapPageTypes);
             Zend_Registry::set('rootSitemapPageTypes', $rootSitemapPageTypes);
             

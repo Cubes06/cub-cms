@@ -15,7 +15,10 @@
         }
 
         public function indexAction() {
-            // action body
+            // ovde dovuci enable-ovane slajdove i proslediti ih
+            
+            //treba izvuci prva cetiri enable-ovana servisa
+            //a na view all treba svi da se prikazu
         }
         
         public function testAction() {
