@@ -287,42 +287,34 @@
   
   
     $('#rows-table').DataTable({
-        
-//        "bPaginate": false,
-//        "ordering": true,
-//        "rowReorder": true,
-//        dom: 'Bfrtip',
-//        buttons: [
-//                {
-//                        extend: 'copyHtml5',
-//                        exportOptions: {
-//                                columns: [ 2, 3, 4, 5 ]
-//                        }
-//                },
-//                {
-//                        extend: 'excelHtml5',
-//                        exportOptions: {
-//                                columns: [ 2, 3, 4, 5 ]
-//                        }
-//                },
-//                {
-//                        extend: 'csvHtml5',
-//                        exportOptions: {
-//                                columns: [ 2, 3, 4, 5 ]
-//                        }
-//                },
-//                {
-//                        extend: 'pdfHtml5',
-//                        exportOptions: {
-//                                columns: [ 2, 3, 4, 5 ]
-//                        }
-//                },
-//        ],
         dom: 'Bfrtip',
         buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
+                {
+                        extend: 'copyHtml5',
+                        exportOptions: {
+                                columns: [ 2, 3, 4, 5 ]
+                        }
+                },
+                {
+                        extend: 'excelHtml5',
+                        exportOptions: {
+                                columns: [ 2, 3, 4, 5 ]
+                        }
+                },
+                {
+                        extend: 'csvHtml5',
+                        exportOptions: {
+                                columns: [ 2, 3, 4, 5 ]
+                        }
+                },
+                {
+                        extend: 'pdfHtml5',
+                        exportOptions: {
+                                columns: [ 2, 3, 4, 5 ]
+                        }
+                },
         ],
-        
+
         columnDefs: [
             {targets: [5], orderable: false, searchable: false},
             {targets: [0, 5], className: 'text-center'}
