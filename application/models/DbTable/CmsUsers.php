@@ -281,7 +281,7 @@
             else {
                 return 0;
             }
-        }
+        }//endf
         
         
         public function getTotalUsers() {
@@ -298,7 +298,7 @@
                 return 0;
             }
             
-        }
+        }//endf
         
         
     } // end of: class Application_Model_DbTable_CmsUsers

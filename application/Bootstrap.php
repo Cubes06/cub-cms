@@ -143,6 +143,20 @@
                     );
                 }
                 
+                if ($sitemapPageMap['type'] == 'ServicesPage') {
+                    $router->addRoute( 
+                        'static-page-route-' . $sitemapPageId, 
+                        new Zend_Controller_Router_Route_Static (
+                                $sitemapPageMap['url'],
+                                array(
+                                    'controller' => 'services',
+                                    'action' => 'index',
+                                    'sitemap_page_id' => $sitemapPageId
+                                )
+                        )
+                    );
+                }
+                
                 if ($sitemapPageMap['type'] == 'DogsPage') {
                     $router->addRoute( 
                         'static-page-route-' . $sitemapPageId, 

@@ -164,7 +164,7 @@
             
             $this->view->user = $user;
             
-	}
+	}//endf
         
         
         public function deleteAction() {
@@ -260,7 +260,7 @@
                 }
             }
             
-        }
+        }//endf
         
         
         public function disableAction() {
@@ -351,7 +351,7 @@
             
 
             
-        }
+        }//endf
         
               
         public function enableAction() {
@@ -440,7 +440,7 @@
                 }
                 
             }
-        }
+        }//endf
     
 
         public function resetpasswordAction() {
@@ -527,7 +527,7 @@
             }
             $this->view->systemMessages = $systemMessages;
             $this->view->form = $form;
-        }
+        }//endf
     
     
         public function datatableAction() {
@@ -636,7 +636,7 @@
             $this->view->draw = $draw;
             $this->view->columns = $columns;
         
-        }
+        }//endf
         
         
         public function dashboardAction() {
@@ -658,7 +658,7 @@
             
 //            $this->view->active =  $active;
 //            $this->view->total =  $total;
-        }
+        }//endf
         
         
         public function dashboard2Action() {
@@ -669,7 +669,7 @@
             
             $this->view->active =  $active;
             $this->view->total =  $total;
-        }
+        }//endf
         
         
         public function dashboard3Action() {
@@ -687,7 +687,8 @@
             
             echo $active . " / " . $total;
             
-        }
+        }//endf
+        
         
         public function getstatsAction() {
             $cmsUsersTable = new Application_Model_DbTable_CmsUsers();
@@ -703,6 +704,6 @@
             ));
             
             $this->getHelper('Json')->sendJson($responseJson);
-        }
+        }//endf
 
     }

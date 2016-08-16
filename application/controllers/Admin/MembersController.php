@@ -4,6 +4,15 @@
 
     class Admin_MembersController extends Zend_Controller_Action {
         
+        private $_widhtXL = 1060;
+        private $_heightXL = 23;
+      
+        private $_widhtL = 748;
+        private $_heightL = 748;
+        
+        private $_widhtS = 100;
+        private $_heightS = 100;
+        
         public function indexAction() {
             
             $flashMessenger = $this->getHelper('FlashMessenger');
@@ -73,7 +82,7 @@
                     //get form data
                     $formData = $form->getValues();
 
-                    //remove key member_photo form form data because there is no column 'member_photo' in cms_members table
+                    //remove key member_photo from form data because there is no column 'member_photo' in cms_members table
                     unset($formData['member_photo']);
                     
                     $cmsMembersTable = new Application_Model_DbTable_CmsMembers();

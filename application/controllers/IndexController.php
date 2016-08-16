@@ -16,12 +16,61 @@
 
         public function indexAction() {
             // ovde dovuci enable-ovane slajdove i proslediti ih
+            $cmsIndexSlidesDbTable = new Application_Model_DbTable_CmsIndexslides();
+
+            $indexSlides = $cmsIndexSlidesDbTable->search(array(
+                'filters' => array(
+                    'status' => Application_Model_DbTable_CmsIndexSlides::STATUS_ENABLED
+                ),
+                'orders' => array(
+                    'order_number' => 'ASC'
+                )
+            ));
+            $this->view->indexSlides = $indexSlides;        
             
-            //treba izvuci prva cetiri enable-ovana servisa
-            //a na view all treba svi da se prikazu
-        }
+            
+   
+            $cmsServicesDbTable = new Application_Model_DbTable_CmsServices();
+//            $select = $cmsServicesDbTable->select();
+//            $select->where('status = ?', Application_Model_DbTable_CmsServices::STATUS_ENABLED)
+//                    ->order('order_number ASC')
+//                    ->limit(4);
+//            $services = $cmsServicesDbTable->fetchAll($select);
+//            $this->view->services = $services;
+            
+            $topServices = $cmsServicesDbTable->search(array(
+                'filters' => array(
+                    'status' => Application_Model_DbTable_CmsServices::STATUS_ENABLED
+                ),
+                'orders' => array(
+                    'order_number' => 'ASC'
+                ),
+                'limit' => 4
+            ));
+                    
+            $this->view->services = $topServices;
+            
+            
+            $cmsSitemapPagesDbTable = new Application_Model_DbTable_CmsSitemapPages();
+            $servicesTopPage = $cmsSitemapPagesDbTable->search(array(
+                'filters' => array(
+                    'status' => Application_Model_DbTable_CmsSitemapPages::STATUS_ENABLED,
+                    'type' => 'ServicesPage',
+                    'parent_id' => 0
+                )
+            ));
+            $servicesTopPage = !empty($servicesTopPage) ? $servicesTopPage : null;
+            $this->view->servicesPage = $servicesTopPage;
+            
+        }//endf
+        
         
         public function testAction() {
             
-        }
-    }
+            
+        }//endf
+    
+        
+        
+    } // end of class: IndexController
+    

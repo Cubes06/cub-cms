@@ -288,6 +288,41 @@
   
     $('#rows-table').DataTable({
         
+//        "bPaginate": false,
+//        "ordering": true,
+//        "rowReorder": true,
+//        dom: 'Bfrtip',
+//        buttons: [
+//                {
+//                        extend: 'copyHtml5',
+//                        exportOptions: {
+//                                columns: [ 2, 3, 4, 5 ]
+//                        }
+//                },
+//                {
+//                        extend: 'excelHtml5',
+//                        exportOptions: {
+//                                columns: [ 2, 3, 4, 5 ]
+//                        }
+//                },
+//                {
+//                        extend: 'csvHtml5',
+//                        exportOptions: {
+//                                columns: [ 2, 3, 4, 5 ]
+//                        }
+//                },
+//                {
+//                        extend: 'pdfHtml5',
+//                        exportOptions: {
+//                                columns: [ 2, 3, 4, 5 ]
+//                        }
+//                },
+//        ],
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ],
+        
         columnDefs: [
             {targets: [5], orderable: false, searchable: false},
             {targets: [0, 5], className: 'text-center'}
@@ -299,9 +334,23 @@
         serverSide: true,  //na svaki klik pitaj server da ti vrati
         processing: true,
         
+        
+        
         ajax: "<?php echo $this->url(array('controller' => 'admin_users', 'action' => 'datatable'), 'default', true); ?>"  //
         
     });
+    
+//    $(document).ready(function() {
+//        $('#rows-table').DataTable( {
+//            dom: 'Bfrtip',
+//            buttons: [
+//                'copyHtml5',
+//                'excelHtml5',
+//                'csvHtml5',
+//                'pdfHtml5'
+//            ]
+//        } );
+//    } );
     
     
     

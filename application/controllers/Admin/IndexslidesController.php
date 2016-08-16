@@ -4,6 +4,15 @@
 
     class Admin_IndexslidesController extends Zend_Controller_Action {
         
+        private $_widhtXL = 1060;
+        private $_heightXL = 23;
+      
+        private $_widhtL = 748;
+        private $_heightL = 748;
+        
+        private $_widhtS = 100;
+        private $_heightS = 100;
+        
         public function indexAction() {
             
             $flashMessenger = $this->getHelper('FlashMessenger');

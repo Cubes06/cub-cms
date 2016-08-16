@@ -46,8 +46,8 @@
             $indexSlidePhoto->addValidator('Count', true, 1)//ogranicavamo broj fajlova koji se mogu uploud-ovati 
                         ->addValidator('MimeType', true, array('image/jpeg', 'image/gif', 'image/png'))
                         ->addValidator('ImageSize', false, array(
-                            'minwidth' => 600,
-                            'minheight' => 400,
+                            'minwidth' => 500,
+                            'minheight' => 300,
                             'maxwidth' => 2000,
                             'maxheight' => 2000
                         ))
