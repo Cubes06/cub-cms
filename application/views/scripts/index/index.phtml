@@ -59,7 +59,11 @@
             </div>
         </section>
     </div>
-
+    
+    
+    
+    
+    
     <!-- ======== @Region: #content ======== -->
     <div id="content">
         <div class="container">
@@ -98,52 +102,27 @@
             <!-- Recommended screenshot size: 400px x 300px -->
             <div class="block portfolio margin-top-large">
                 <h2 class="block-title">
-                    <span>Photo galleries</span> 
-                    <small><a href="<?php echo $this->servicesPage; ?>">View all</a></small>
+                    <span>Photo galleries</span>
+                    <?php if ($this->photoGalleriesSitemapPage) { ?>
+                        <small><a href="<?php echo $this->sitemapPageUrl($this->photoGalleriesSitemapPage['id']); ?>">View all</a></small>
+                    <?php } ?>
                 </h2>
                 <ul class="thumbnails row projects">
-                    <li class="col-md-4 ">
-                        <div class="">
-                            <div class="project">
-                                <a class="lnk-polaroid" href="#link-to-photo-gallery-1">
-                                    <img src="/uploads/photo-galleries/1.jpg" alt="Photo Gallery 1 Title" class="img-polaroid img-responsive" />
-                                </a>
-                                <h3 class="title">
-                                    <a href="#link-to-photo-gallery-1">Photo Gallery 1 Title</a>
-                                    <small class="pull-right"></small>
-                                </h3>
-                                <p class="muted">Photo Gallery 1 Description</p>
+                    <?php foreach ($this->photoGalleries as $photoGallery) { ?>
+                        <li class="col-md-4 ">
+                            <div class="">
+                                <div class="project">
+                                    <a class="lnk-polaroid" href="<?php echo $this->photoGalleryUrl($photoGallery); ?>">
+                                        <img src="<?php echo $this->photoGalleryLeadingPhotoUrl($photoGallery); ?>" alt="<?php echo $this->escape($photoGallery['title']); ?>" class="img-polaroid img-responsive" />
+                                    </a>
+                                    <h3 class="title">
+                                        <a href="<?php echo $this->photoGalleryUrl($photoGallery); ?>"><?php echo $this->escape($photoGallery['title']); ?></a>
+                                    </h3>
+                                    <p class="muted"><?php echo $this->escape($photoGallery['description']); ?></p>
+                                </div>
                             </div>
-                        </div>
-                    </li>
-                    <li class="col-md-4 ">
-                        <div class="">
-                            <div class="project">
-                                <a class="lnk-polaroid" href="#link-to-photo-gallery-2">
-                                    <img src="/uploads/photo-galleries/2.jpg" alt="Photo Gallery 2 Title" class="img-polaroid img-responsive" />
-                                </a>
-                                <h3 class="title">
-                                    <a href="#link-to-photo-gallery-2">Photo Gallery 2 Title</a>
-                                    <small class="pull-right"></small>
-                                </h3>
-                                <p class="muted">Photo Gallery 2 Description</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="col-md-4 ">
-                        <div class="">
-                            <div class="project">
-                                <a class="lnk-polaroid" href="#link-to-photo-gallery-3">
-                                    <img src="/uploads/photo-galleries/3.jpg" alt="Photo Gallery 3 Title" class="img-polaroid img-responsive" />
-                                </a>
-                                <h3 class="title">
-                                    <a href="#link-to-photo-gallery-3">Photo Gallery 3 Title</a>
-                                    <small class="pull-right"></small>
-                                </h3>
-                                <p class="muted">Photo Gallery 3 Description</p>
-                            </div>
-                        </div>
-                    </li>
+                        </li>
+                    <?php } ?>
                 </ul>
             </div>
         </div>
@@ -168,3 +147,9 @@
         
     <?php $this->inlineScript()->captureEnd(); ?>
 </script>
+
+
+
+
+<!-- ======== @Region: #content ======== -->
+		

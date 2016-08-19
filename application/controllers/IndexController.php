@@ -64,6 +64,35 @@
             $servicesTopPage = !empty($servicesTopPage) ? $servicesTopPage : null;
             $this->view->servicesPage = $servicesTopPage;
             
+            
+            
+            
+            
+            $photoGalleriesSitemapPages = $cmsSitemapPagesDbTable->search(array(
+                    'filters' => array(
+                            'status' => Application_Model_DbTable_CmsSitemapPages::STATUS_ENABLED,
+                            'type' => 'PhotoGalleriesPage'
+                    ),
+                    'limit' => 1
+            ));
+            $photoGalleriesSitemapPage = !empty($photoGalleriesSitemapPages) ? $photoGalleriesSitemapPages[0] : null;
+
+            $cmsPhotoGalleriesDbTable = new Application_Model_DbTable_CmsPhotoGalleries();
+            $photoGalleries = $cmsPhotoGalleriesDbTable->search(array(
+                    'filters' => array(
+                            'status' => Application_Model_DbTable_CmsServices::STATUS_ENABLED
+                    ),
+                    'orders' => array(
+                            'order_number' => 'ASC'
+                    ),
+                    'limit' => 3
+            ));
+
+            
+            $this->view->photoGalleriesSitemapPage = $photoGalleriesSitemapPage;
+            $this->view->photoGalleries = $photoGalleries;
+            
+            
         }//endf
         
         

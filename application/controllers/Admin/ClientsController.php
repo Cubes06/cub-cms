@@ -1,6 +1,7 @@
 <?php
 
     use Intervention\Image\ImageManagerStatic as Image;
+    
 
     class Admin_ClientsController extends Zend_Controller_Action {
         

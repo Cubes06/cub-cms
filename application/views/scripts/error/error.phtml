@@ -10,6 +10,8 @@
             <p>An error occured</p>
             <p><a class="btn btn-primary btn-lg" href="<?php echo $this->baseUrl('/'); ?>" role="button">Home</a></p>
         </div>
+        
+<!--        ovo se nece prikazivati u production environment-u, samo u development environment-u-->
         <?php if (isset($this->exception)): ?>
 
             <h3>Exception information:</h3>
