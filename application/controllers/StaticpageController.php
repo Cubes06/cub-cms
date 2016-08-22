@@ -29,7 +29,7 @@
                 throw new Zend_Controller_Router_Exception('Sitemap page is disabled');
             }
             
-        }
+        }//endf
         
         
     } // end of StaticpageController
