@@ -31,7 +31,57 @@
             ) {
                 throw new Zend_Controller_Router_Exception('Sitemap page is disabled');
             }
+			
+			
+			$flashMessenger = $this->getHelper('FlashMessenger');
+			
+			//za mail
+			$form = new Application_Form_Contact();
+			
+			$systemMessages = "init";
+
+			if ($request->isPost() && $request->getPost('task') === 'contact') {
+
+				try {
+
+					//check form is valid
+					if (!$form->isValid($request->getPost())) {
+						throw new Application_Model_Exception_InvalidInput('Invalid form data.');
+					}
+
+					//get form data
+					$formData = $form->getValues();
+
+					// do actual task
+					$mailHelper = new Application_Model_MailHelper();
+					
+					$from_email = $formData['email'];
+					$to_email = "milomir.drago@gmail.com";
+					$from_name = $formData['name'];
+					$message = $formData['message'];
+					
+					$result = $mailHelper->sendMail($to_email, $from_email, $from_name, $message);
+					
+					if (!$result) {
+						$systemMessages = "Error";
+					}
+					else {
+						$systemMessages = "Success";
+					}
+					
+					//save to database etc
+					
+					
+				} catch (Application_Model_Exception_InvalidInput $ex) {
+					//$systemMessages['errors'][] = $ex->getMessage();
+				}
+			}
+
+			$this->view->systemMessages = $systemMessages;
+			$this->view->form = $form;					
         }
+		
+		
         
         public function askmemberAction() {
             
@@ -60,5 +110,7 @@
             
             $this->view->member = $member;
         }
+		
+		
 
     }
