@@ -58,28 +58,28 @@
          */
         public function insertIndexSlide($indexSlide) {
             
-		//fetch order number for new indexSlide
-		$select = $this->select();
-		
-		//Sort rows by order_number DESCENDING and fetch one row from the top
-		// with biggest order_number
-		$select->order('order_number DESC');
-		
-		$indexSlideWithBiggestOrderNumber = $this->fetchRow($select);
-		
-		if ($indexSlideWithBiggestOrderNumber instanceof Zend_Db_Table_Row) {
-			
-			$indexSlide['order_number'] = $indexSlideWithBiggestOrderNumber['order_number'] + 1;
-		} 
-                else {
-			// table was empty, we are inserting first indexSlide
-			$indexSlide['order_number'] = 1;
-		}
-		
-		$id = $this->insert($indexSlide);
-		
-		return $id;
-	}//endf
+			//fetch order number for new indexSlide
+			$select = $this->select();
+
+			//Sort rows by order_number DESCENDING and fetch one row from the top
+			// with biggest order_number
+			$select->order('order_number DESC');
+
+			$indexSlideWithBiggestOrderNumber = $this->fetchRow($select);
+
+			if ($indexSlideWithBiggestOrderNumber instanceof Zend_Db_Table_Row) {
+
+				$indexSlide['order_number'] = $indexSlideWithBiggestOrderNumber['order_number'] + 1;
+			} 
+					else {
+				// table was empty, we are inserting first indexSlide
+				$indexSlide['order_number'] = 1;
+			}
+
+			$id = $this->insert($indexSlide);
+
+			return $id;
+		}//endf
         
         
         /**

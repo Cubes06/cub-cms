@@ -88,14 +88,36 @@
                     $cmsIndexSlidesTable = new Application_Model_DbTable_CmsIndexslides();
 
                     //insert indexSlide returns ID of the new indexSlide
-                    $indexSlideId = $cmsIndexSlidesTable->insertIndexSlide($formData);
-
+					
+                    
+					//print_r('cp2');
                     if ($form->getElement('index_slide_photo')->isUploaded()) {
                         //photo is uploaded
 
                         $fileInfos = $form->getElement('index_slide_photo')->getFileInfo('index_slide_photo');
                         $fileInfo = $fileInfos['index_slide_photo'];
 
+						
+//						if ($form->index_slide_photo->isUploaded()) {
+//							$form->index_slide_photo->receive();
+//							$fileExtension =  pathinfo($form->index_slide_photo->getFileName(), PATHINFO_EXTENSION);
+//							$image = '/uploads/index-slides/' .basename($form->index_slide_photo->getFileName());
+//
+//							$resizeImage = new Application_Model_Resizeimage(PUBLIC_PATH . $image);
+//							$resizeImage->resizeTo($this->_widhtXL, $this->_heightXL, 'exact');
+//							$resizeImage->saveImage(APP_PUBLIC . substr($image, 0, -(strlen($fileExtension)+1))."-xl.".$fileExtension);
+//
+//							$resizeImage = new Application_Model_Resizeimage(PUBLIC_PATH . $image);
+//							$resizeImage->resizeTo($this->_widhtL, $this->_heightL, 'exact');
+//							$resizeImage->saveImage(APP_PUBLIC . substr($image, 0, -(strlen($fileExtension)+1))."-l.".$fileExtension);
+//
+//							$resizeImage = new Application_Model_Resizeimage(PUBLIC_PATH . $image);
+//							$resizeImage->resizeTo($this->_widhtS, $this->_heightS, 'exact');
+//							$resizeImage->saveImage(APP_PUBLIC . substr($image, 0, -(strlen($fileExtension)+1))."-s.".$fileExtension);
+//
+//							$formData['index_slide_photo'] = $image;
+//						}
+						$indexSlideId = $cmsIndexSlidesTable->insertIndexSlide($formData);
 
                         try {
                             //open uploaded photo in temporary directory
@@ -104,7 +126,8 @@
                             $indexSlidePhoto->fit(600, 400);
 
                             $indexSlidePhoto->save(PUBLIC_PATH . '/uploads/index-slides/' . $indexSlideId . '.jpg');
-                        }
+                        
+						}
                         catch (Exception $ex) {
 
                             $flashMessenger->addMessage('IndexSlide has been saved but error occured during image processing', 'errors');

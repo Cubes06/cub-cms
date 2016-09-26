@@ -57,8 +57,11 @@
                         // disable move file to destination when calling method getValues
                         ->setValueDisabled(true)
                         ->setRequired(false);
-
-                $this->addElement($indexSlidePhoto);
+			
+//			$indexSlidePhoto->getTransferAdapter()->setOptions(array('useByteString' => false));
+//			$indexSlidePhoto->addFilter('Rename', array ('target' => PUBLIC_PATH . '/uploads/index-slides/'.date("Y-m-d-H-i-s") . '.jpg', 'overwrite' => true ) );
+		
+			$this->addElement($indexSlidePhoto);
 
         }//endf init
 
