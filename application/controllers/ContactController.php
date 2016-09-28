@@ -33,52 +33,53 @@
             }
 			
 			
-			$flashMessenger = $this->getHelper('FlashMessenger');
+            $flashMessenger = $this->getHelper('FlashMessenger');
 			
-			//za mail
-			$form = new Application_Form_Contact();
-			
-			$systemMessages = "init";
+            //za mail
+            $form = new Application_Form_Contact();
 
-			if ($request->isPost() && $request->getPost('task') === 'contact') {
+            $systemMessages = "init";
 
-				try {
+            if ($request->isPost() && $request->getPost('task') === 'contact') {
 
-					//check form is valid
-					if (!$form->isValid($request->getPost())) {
-						throw new Application_Model_Exception_InvalidInput('Invalid form data.');
-					}
+                    try {
 
-					//get form data
-					$formData = $form->getValues();
+                            //check form is valid
+                            if (!$form->isValid($request->getPost())) {
+                                    throw new Application_Model_Exception_InvalidInput('Invalid form data.');
+                            }
 
-					// do actual task
-					$mailHelper = new Application_Model_MailHelper();
-					
-					$from_email = $formData['email'];
-					$to_email = "milomir.drago@gmail.com";
-					$from_name = $formData['name'];
-					$message = $formData['message'];
-					
-					$result = $mailHelper->sendMail($to_email, $from_email, $from_name, $message);
-					
-					if (!$result) {
-						$systemMessages = "Error";
-					}
-					else {
-						$systemMessages = "Success";
-					}
-					
-					//save to database etc
-					
-					
-				} catch (Application_Model_Exception_InvalidInput $ex) {
-					//$systemMessages['errors'][] = $ex->getMessage();
-				}
-			}
+                            //get form data
+                            $formData = $form->getValues();
 
-			$this->view->systemMessages = $systemMessages;
-			$this->view->form = $form;					
+                            // do actual task
+                            $mailHelper = new Application_Model_MailHelper();
+
+                            $from_email = $formData['email'];
+                            $to_email = "milomir.drago@gmail.com";
+                            $from_name = $formData['name'];
+                            $message = $formData['message'];
+
+                            $result = $mailHelper->sendMail($to_email, $from_email, $from_name, $message);
+
+                            if (!$result) {
+                                    $systemMessages = "Error";
+                            }
+                            else {
+                                    $systemMessages = "Success";
+                            }
+
+                            //save to database etc
+
+
+                    } 
+                    catch (Application_Model_Exception_InvalidInput $ex) {
+                            //$systemMessages['errors'][] = $ex->getMessage();
+                    }
+            }
+
+            $this->view->systemMessages = $systemMessages;
+            $this->view->form = $form;					
         }
 		
 		

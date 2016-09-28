@@ -66,7 +66,7 @@
                     ->addFilter(new Application_Model_Filter_UrlSlug())
                     ->addValidator('StringLength', false, array('min' => 2, 'max' => 255))
                     ->addValidator(
-                        new Zend_Validate_Db_NoRecordExists(                    //korisna stvar (moze da se koristi i za username i email
+                        new Zend_Validate_Db_NoRecordExists(   //korisna stvar (moze da se koristi i za username i email)
                             array(
                                 'table' => 'cms_sitemap_pages',
                                 'field' => 'url_slug',
