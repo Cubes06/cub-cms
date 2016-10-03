@@ -37,18 +37,29 @@
                    
 //            $members = $cmsMembersDbTable->fetchAll($select);
             
-            $members = $cmsMembersDbTable->search(array(
-                'filters' => array(
-                    //'status' => Application_Model_DbTable_CmsMembers::STATUS_DISABLED
-                    //'first_name_search' => 'Ale'
-                    //'first_name' => array('Aleksandra', 'Bojan')
-                    //'id' => array(1, 3, 5, 6)
-                ),
-                'orders' => array(
-                    'order_number' => 'ASC'
-                )
-            ));
-            
+			
+			
+			//ovo je deo za kesiranje
+			$cache = Zend_Registry::get('mycache');
+			$members = $cache->load('members');
+			
+			if (!$members) {
+				$members = $cmsMembersDbTable->search(array(
+					'filters' => array(
+						//'status' => Application_Model_DbTable_CmsMembers::STATUS_DISABLED
+						//'first_name_search' => 'Ale'
+						//'first_name' => array('Aleksandra', 'Bojan')
+						//'id' => array(1, 3, 5, 6)
+					),
+					'orders' => array(
+						'order_number' => 'ASC'
+					)
+				));
+				
+				$cache->save($members, 'members');
+			}
+			
+			
             $this->view->members = $members;
             $this->view->systemMessages = $systemMessages;
         }
