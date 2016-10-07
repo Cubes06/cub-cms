@@ -1,7 +1,7 @@
 <?php
 
     class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
-        //ovo nema veze sa framework-om 
+        //ovo nema veze sa framework-om bootstrap
         //ovo je konfiguracija aplikacije u procesu bootstrap-inga
         
         protected function _initRouter() {  //bitno je da pocinje sa donjom crtom i init (_initPaNesto)
@@ -233,28 +233,49 @@
 		
 		
 		// translate
-		protected function _initTranslate() {
-			
-			$translate = new Zend_Translate (
-				array(
-					'adapter' => 'array',
-					'content' => APPLICATION_PATH . '/translate/language/en.php',
-					'locale' => 'en'
-				)
-			);
-
-			$translate->addTranslation(
-				array(
-					'adapter' => 'array',
-					'content' => APPLICATION_PATH . '/translate/language/sr.php',
-					'locale' => 'sr'
-				)
-			);
-
-			$translate->setLocale('en');
-
-			Zend_Registry::set('Zend_Translate', $translate);
-		}
+//		protected function _initTranslate() {
+//			
+//			$cms_translate = new Zend_Translate (
+//				array(
+//					'adapter' => 'array',
+//					'content' => APPLICATION_PATH . '/translate/language/en.php',
+//					'locale' => 'en'
+//				)
+//			);
+//
+//			$cms_translate->addTranslation(
+//				array(
+//					'adapter' => 'array',
+//					'content' => APPLICATION_PATH . '/translate/language/sr.php',
+//					'locale' => 'sr'
+//				)
+//			);
+//
+//			$cms_translate->setLocale('en');
+//
+//			Zend_Registry::set('Zend_Translate', $cms_translate);
+//			
+//			
+//			$front_translate = new Zend_Translate (
+//				array(
+//					'adapter' => 'array',
+//					'content' => PUBLIC_PATH . '/front/language/en.php',
+//					'locale' => 'en'
+//				)
+//			);
+//
+//			$front_translate->addTranslation (
+//				array(
+//					'adapter' => 'array',
+//					'content' => PUBLIC_PATH . '/front/language/sr.php',
+//					'locale' => 'sr'
+//				)
+//			);
+//
+//			$front_translate->setLocale('en');
+//
+//			Zend_Registry::set('Front_Translate', $front_translate);
+//		}
 
 		
 		

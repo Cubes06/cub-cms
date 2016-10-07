@@ -53,6 +53,10 @@
                     
                     <form class="form-horizontal" method="post" action="">
                         <input type="hidden" name="task" value="save">
+						<?php echo $form->getElement('csrf_token'); ?>
+						
+						
+						
                         
                         <fieldset>
 

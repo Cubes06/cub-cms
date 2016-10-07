@@ -103,4 +103,49 @@
             
         }
 
+		
+		public function soapAction() {
+			
+			$wsdl = "https://webservices.nbs.rs/CommunicationOfficeService1_0/ExchangeRateService.asmx?WSDL";
+			$error = array();
+			$currencyList = array();
+			
+			try {
+				$soapClient = new Zend_Soap_Client_DotNet($wsdl);
+				
+				//php soap extension
+				$header = new SoapHeader(
+						'http://communicationoffice.nbs.rs',
+						'AuthenticationHeader',
+						array(
+							'UserName' => '',
+							'Password' => '',
+							'LicenceID' => ''
+						)
+						
+				);
+				
+				$soapClient->addSoapInputHeader($header);
+				$responseRaw = $soapClient->GetCurrentExchangeRate(array(
+					'exchangeRateListTypeID' => 1
+				));
+				if ($responseRaw->any) {
+					$response = simplexml_load_string($responseRaw->any);
+					
+					if ($response->ExchangeRateDataSet && $response->ExchangeRateDataSet->ExchangeRate) {
+						$currencyList = $response->ExchangeRateDataSet->ExchangeRate;
+					}
+				}
+				
+			} catch (Exception $ex) {
+				$error = $ex->getMessage();
+			}
+			
+			$this->view->soapClient = $soapClient;
+			$this->view->response = $response;
+			$this->view->error = $error;
+			$this->view->currencyList = $currencyList;
+			
+		}
+		
     }

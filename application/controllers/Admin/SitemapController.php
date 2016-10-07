@@ -104,12 +104,13 @@
                     
                     //get form data
                     $formData = $form->getValues();
+					unset($formData['csrf_token']);
                     $formData['parent_id'] = $parentId;
                     //remove key sitemapPage_photo form form data because there is no column 'sitemapPage_photo' in cms_sitemapPage table
                     //unset($formData['sitemapPage_photo']);
                     
 
-                    //insert sitemapPage returns ID of the new sitemapPage
+                    //insert sitemapPage returns ID o2555258858524184f the new sitemapPage
                     $sitemapPageId = $cmsSitemapPagesDbTable->insertSitemapPage($formData);
 
 //                    if ($form->getElement('sitemap_page_photo')->isUploaded()) {
